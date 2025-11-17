@@ -1,0 +1,150 @@
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import MicButton from '../components/MicButton';
+import styles from '../styles/Practice.module.css';
+import { analyzeSpeech } from '../api';
+
+/**
+ * Practice Screen
+ * Main interaction loop:
+ * 1. Show speech prompt
+ * 2. User clicks mic to record
+ * 3. Show "Analyzing..." state
+ * 4. Display feedback
+ * 5. Move to next prompt or complete
+ */
+
+// Speech prompts array
+const PROMPTS = [
+  "Say the word: 'Rabbit'",
+  "Try saying: 'Red'",
+  "Say this sentence: 'The rabbit ran fast.'"
+];
+
+export default function Practice() {
+  const router = useRouter();
+  const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+  const [score, setScore] = useState(0);
+  const [showNext, setShowNext] = useState(false);
+
+  const currentPrompt = PROMPTS[currentPromptIndex];
+  const progress = ((currentPromptIndex + 1) / PROMPTS.length) * 100;
+
+  // Handle recording start
+  const handleRecordStart = () => {
+    setIsRecording(true);
+    setFeedback(null);
+    setShowNext(false);
+  };
+
+  // Handle recording stop and analysis
+  const handleRecordStop = async () => {
+    setIsRecording(false);
+    setIsAnalyzing(true);
+
+    try {
+      // Call backend API for analysis
+      const result = await analyzeSpeech();
+      
+      if (result.success) {
+        setFeedback(result.feedback);
+        setScore(score + 1); // Increment score
+        setShowNext(true);
+      }
+    } catch (error) {
+      console.error('Analysis error:', error);
+      setFeedback("Oops! Something went wrong. Let's try again!");
+      setShowNext(true);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  // Move to next prompt
+  const handleNext = () => {
+    if (currentPromptIndex < PROMPTS.length - 1) {
+      setCurrentPromptIndex(currentPromptIndex + 1);
+      setFeedback(null);
+      setShowNext(false);
+    } else {
+      // All prompts completed - go to completion screen
+      router.push({
+        pathname: '/complete',
+        query: { score: score + 1 } // Pass final score
+      });
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      {/* Progress Bar */}
+      <div className={styles.progressContainer}>
+        <div className="progress-bar">
+          <div 
+            className="progress-fill" 
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <p className={styles.progressText}>
+          {currentPromptIndex + 1} of {PROMPTS.length}
+        </p>
+      </div>
+
+      {/* Main Content */}
+      <div className="card">
+        <h2 className={styles.promptTitle}>Your Turn!</h2>
+        
+        <div className={styles.promptCard}>
+          <p className={styles.promptText}>{currentPrompt}</p>
+        </div>
+
+        {/* Microphone Button */}
+        <div className={styles.micContainer}>
+          <MicButton
+            isRecording={isRecording}
+            onRecordStart={handleRecordStart}
+            onRecordStop={handleRecordStop}
+            disabled={isAnalyzing || showNext}
+          />
+        </div>
+
+        {/* Status Messages */}
+        {isRecording && (
+          <div className={styles.status}>
+            <p className={`${styles.statusText} pulse`}>🎤 Recording...</p>
+          </div>
+        )}
+
+        {isAnalyzing && (
+          <div className={styles.status}>
+            <p className={styles.statusText}>
+              <span className="spin">⏳</span> Analyzing...
+            </p>
+          </div>
+        )}
+
+        {/* Feedback Message */}
+        {feedback && (
+          <div className={styles.feedback}>
+            <p className={styles.feedbackText}>{feedback}</p>
+          </div>
+        )}
+
+        {/* Next Button */}
+        {showNext && (
+          <button 
+            className="btn btn-success" 
+            onClick={handleNext}
+            style={{ marginTop: '30px' }}
+          >
+            {currentPromptIndex < PROMPTS.length - 1 ? 'Next' : 'Finish!'}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+

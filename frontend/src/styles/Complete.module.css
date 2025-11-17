@@ -1,0 +1,42 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.title {
+  font-size: 48px;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+.message {
+  font-size: 24px;
+  color: var(--text-dark);
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.scoreContainer {
+  margin: 40px 0;
+  padding: 30px;
+  background: linear-gradient(135deg, var(--accent-color), #ffd93d);
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(255, 230, 109, 0.4);
+}
+
+.scoreLabel {
+  font-size: 20px;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.scoreValue {
+  font-size: 36px;
+  color: var(--text-dark);
+  font-weight: bold;
+}
+
