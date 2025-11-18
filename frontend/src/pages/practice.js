@@ -65,7 +65,7 @@ export default function Practice() {
         
         // Only increment score if transcription matches expected text
         if (result.matches === true) {
-          setScore(score + 1);
+          setScore((prevScore) => prevScore + 1);
         }
         // If matches is false or null, don't increment score
         
@@ -90,7 +90,7 @@ export default function Practice() {
       // All prompts completed - go to completion screen
       router.push({
         pathname: '/complete',
-        query: { score: score + 1 } // Pass final score
+        query: { score } // Pass the actual number of correct answers
       });
     }
   };
