@@ -1,0 +1,357 @@
+/**
+ * SpeakQuest Design Tokens - CSS Variables
+ * 
+ * Usage: Import this file or copy these variables to your globals.css
+ * Apply with: var(--token-name)
+ */
+
+:root {
+  /* ============================
+     BRAND COLORS - KIDS MODE
+     ============================ */
+  --color-mint-100: #E8F8F0;
+  --color-mint-200: #C8F0E0;
+  --color-mint-300: #A8E6CF;
+  --color-mint-400: #7ECBA5;
+  --color-mint-500: #5EE7B5;
+  --color-mint-600: #3CD5A0;
+
+  --color-yellow-100: #FFF9E0;
+  --color-yellow-200: #FFF4C8;
+  --color-yellow-300: #FFF59D;
+  --color-yellow-400: #FFE66D;
+  --color-yellow-500: #FFD93D;
+
+  --color-coral-100: #FFE5E7;
+  --color-coral-200: #FFC5C8;
+  --color-coral-300: #FFA6A9;
+  --color-coral-400: #FF8FAB;
+  --color-coral-500: #FF6B9D;
+  --color-coral-600: #F57E84;
+
+  --color-blue-100: #E3F2FD;
+  --color-blue-200: #BBDEFB;
+  --color-blue-300: #74C9FF;
+  --color-blue-400: #3FA9F5;
+  --color-blue-500: #2196F3;
+  --color-blue-600: #2563EB;
+
+  /* ============================
+     BACKGROUND TINTS
+     ============================ */
+  --bg-peach: #FFE5D9;
+  --bg-mint-light: #F0FAF5;
+  --bg-blue-light: #F0F9FF;
+  --bg-purple-light: #FAF5FF;
+  --bg-yellow-light: #FFFBEB;
+
+  /* ============================
+     SEMANTIC COLORS
+     ============================ */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  /* ============================
+     NEUTRAL COLORS
+     ============================ */
+  --color-white: #FFFFFF;
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-300: #D1D5DB;
+  --color-gray-400: #9CA3AF;
+  --color-gray-500: #6B7280;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
+  --color-gray-900: #111827;
+  --color-black: #2D3748;
+
+  /* ============================
+     GRADIENTS
+     ============================ */
+  --gradient-mint: linear-gradient(135deg, #5EE7B5 0%, #3CD5A0 100%);
+  --gradient-yellow: linear-gradient(135deg, #5EE7B5 0%, #FFF59D 100%);
+  --gradient-blue: linear-gradient(135deg, #74C9FF 0%, #3FA9F5 100%);
+  --gradient-coral: linear-gradient(135deg, #FFA6A9 0%, #F57E84 100%);
+  --gradient-pink: linear-gradient(135deg, #FF6B9D 0%, #FF8FAB 100%);
+  --gradient-purple-pink: linear-gradient(135deg, #A78BFA 0%, #F472B6 100%);
+  --gradient-orange-yellow: linear-gradient(135deg, #FB923C 0%, #FBBF24 100%);
+  --gradient-blue-progress: linear-gradient(to right, #60A5FA, #2563EB);
+
+  /* ============================
+     TYPOGRAPHY
+     ============================ */
+  --font-family-base: system-ui, -apple-system, sans-serif;
+  --font-family-display: 'Poppins', 'Nunito', sans-serif;
+
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+  --font-size-2xl: 1.5rem;      /* 24px */
+  --font-size-3xl: 1.875rem;    /* 30px */
+  --font-size-4xl: 2.25rem;     /* 36px */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.25;
+  --line-height-base: 1.5;
+  --line-height-relaxed: 1.75;
+
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+
+  --text-shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --text-shadow-medium: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  /* ============================
+     SPACING
+     ============================ */
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+
+  /* ============================
+     BORDER RADIUS
+     ============================ */
+  --radius-sm: 0.375rem;    /* 6px */
+  --radius-base: 0.5rem;    /* 8px */
+  --radius-md: 0.625rem;    /* 10px */
+  --radius-lg: 0.75rem;     /* 12px */
+  --radius-xl: 0.75rem;     /* 12px */
+  --radius-2xl: 1rem;       /* 16px */
+  --radius-3xl: 1.5rem;     /* 24px */
+  --radius-full: 9999px;    /* Pill shape */
+
+  /* Semantic radius */
+  --radius-button: 1rem;
+  --radius-card: 1.5rem;
+  --radius-container: 1.5rem;
+
+  /* ============================
+     SHADOWS
+     ============================ */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* Semantic shadows */
+  --shadow-card: var(--shadow-xl);
+  --shadow-button: var(--shadow-lg);
+
+  /* ============================
+     BLUR
+     ============================ */
+  --blur-sm: 4px;
+  --blur-base: 8px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+  --blur-2xl: 40px;
+
+  /* ============================
+     STROKE
+     ============================ */
+  --stroke-thin: 1px;
+  --stroke-base: 2px;
+  --stroke-medium: 3px;
+  --stroke-thick: 4px;
+
+  --stroke-color: #2D3748;
+  --stroke-color-light: #D1D5DB;
+
+  /* ============================
+     SIZING
+     ============================ */
+  /* Icons */
+  --icon-xs: 1rem;      /* 16px */
+  --icon-sm: 1.25rem;   /* 20px */
+  --icon-base: 1.5rem;  /* 24px */
+  --icon-lg: 1.75rem;   /* 28px */
+  --icon-xl: 2.5rem;    /* 40px */
+  --icon-2xl: 3rem;     /* 48px */
+
+  /* Buttons */
+  --button-height-sm: 2rem;     /* 32px */
+  --button-height-md: 2.5rem;   /* 40px */
+  --button-height-lg: 3rem;     /* 48px */
+  --button-height-xl: 4rem;     /* 64px */
+
+  /* Containers */
+  --container-card: 32rem;      /* 512px */
+  --container-modal: 42rem;     /* 672px */
+  --container-content: 56rem;   /* 896px */
+
+  /* ============================
+     MOTION
+     ============================ */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 800ms;
+  --duration-slowest: 1000ms;
+
+  --easing-linear: linear;
+  --easing-ease: ease;
+  --easing-ease-in: ease-in;
+  --easing-ease-out: ease-out;
+  --easing-ease-in-out: ease-in-out;
+  --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  --scale-hover-sm: 1.02;
+  --scale-hover-md: 1.05;
+  --scale-hover-lg: 1.1;
+  --scale-active: 0.95;
+
+  /* ============================
+     OPACITY
+     ============================ */
+  --opacity-10: 0.1;
+  --opacity-20: 0.2;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-50: 0.5;
+  --opacity-60: 0.6;
+  --opacity-70: 0.7;
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+
+  /* ============================
+     Z-INDEX
+     ============================ */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal: 40;
+  --z-popover: 50;
+  --z-tooltip: 60;
+}
+
+/* ============================
+   COMPONENT CLASSES
+   ============================ */
+
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-xl);
+}
+
+.btn-primary-kids {
+  background: var(--gradient-mint);
+  color: var(--color-white);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6) var(--space-6);
+  font-weight: var(--font-weight-bold);
+  font-size: 19px;
+  box-shadow: var(--shadow-lg);
+  text-shadow: var(--text-shadow-subtle);
+  transition: all var(--duration-base) var(--easing-ease-in-out);
+}
+
+.btn-primary-kids:hover {
+  box-shadow: var(--shadow-xl);
+  transform: scale(var(--scale-hover-sm));
+}
+
+.btn-primary-therapist {
+  background: var(--gradient-blue);
+  color: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3) var(--space-4);
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--duration-base) var(--easing-ease-in-out);
+}
+
+.btn-secondary {
+  background: var(--color-white);
+  border: 2px solid #BFDBFE;
+  color: var(--color-blue-400);
+  border-radius: var(--radius-xl);
+  padding: var(--space-3) var(--space-4);
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--duration-base) var(--easing-ease-in-out);
+}
+
+.progress-bar {
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-gray-200);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-blue-progress);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-slow) var(--easing-ease-out);
+}
+
+.decorative-dot {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  opacity: var(--opacity-50);
+}
+
+.decorative-blur {
+  position: absolute;
+  border-radius: var(--radius-full);
+  opacity: var(--opacity-30);
+  filter: blur(var(--blur-xl));
+}
+
+/* ============================
+   UTILITY CLASSES
+   ============================ */
+
+.text-shadow-subtle {
+  text-shadow: var(--text-shadow-subtle);
+}
+
+.text-shadow-medium {
+  text-shadow: var(--text-shadow-medium);
+}
+
+.transition-all {
+  transition: all var(--duration-base) var(--easing-ease-in-out);
+}
+
+.transition-colors {
+  transition: color var(--duration-base) var(--easing-ease-in-out),
+              background-color var(--duration-base) var(--easing-ease-in-out),
+              border-color var(--duration-base) var(--easing-ease-in-out);
+}
+
+.hover-scale:hover {
+  transform: scale(var(--scale-hover-sm));
+}
+
+.hover-scale-md:hover {
+  transform: scale(var(--scale-hover-md));
+}
+
+.hover-scale-lg:hover {
+  transform: scale(var(--scale-hover-lg));
+}

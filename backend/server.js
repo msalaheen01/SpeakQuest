@@ -110,12 +110,29 @@ app.post('/api/analyze', upload.single('audio'), async (req, res) => {
       await unlink(tempFilePath);
 
       // Generate feedback based on transcription
-      const feedback = generateFeedback(transcription, req.body.prompt);
+      const expectedText = extractExpectedText(req.body.prompt || '');
+      const transcriptionText = transcription.trim();
+      
+      // Check if transcription is empty
+      if (!transcriptionText) {
+        return res.json({
+          success: true,
+          transcription: '',
+          feedback: "I couldn't hear anything. Please try speaking louder!",
+          matches: false,
+          expectedText: expectedText,
+        });
+      }
+      
+      const matches = expectedText ? compareTranscription(transcriptionText, expectedText) : null;
+      const feedback = generateFeedback(matches, expectedText);
 
       res.json({
         success: true,
-        transcription: transcription.trim(),
+        transcription: transcriptionText,
         feedback: feedback,
+        matches: matches, // Include match status for frontend
+        expectedText: expectedText, // Include expected text for debugging/display
       });
     } catch (transcriptionError) {
       // Clean up temp file on error
@@ -136,23 +153,110 @@ app.post('/api/analyze', upload.single('audio'), async (req, res) => {
 });
 
 /**
- * Generate feedback based on transcription
+ * Extract expected text from prompt
+ * Handles formats like:
+ * - "Say the word: 'Rabbit'"
+ * - "Try saying: 'Red'"
+ * - "Say this sentence: 'The rabbit ran fast.'"
  */
-function generateFeedback(transcription, prompt) {
-  if (!transcription || !transcription.trim()) {
-    return "I couldn't hear anything. Please try speaking louder!";
+function extractExpectedText(prompt) {
+  if (!prompt) return null;
+  
+  // Look for text in quotes (single or double)
+  const singleQuoteMatch = prompt.match(/['"]([^'"]+)['"]/);
+  if (singleQuoteMatch) {
+    return singleQuoteMatch[1].trim();
   }
+  
+  // Fallback: look for text after colon
+  const colonMatch = prompt.match(/:\s*(.+)$/);
+  if (colonMatch) {
+    return colonMatch[1].trim();
+  }
+  
+  return null;
+}
 
-  // Simple feedback generation
-  // In a real app, you might want more sophisticated analysis
-  const feedbacks = [
-    "Great job! You said that perfectly!",
-    "Excellent! Your pronunciation is improving!",
-    "Nice work! Keep it up!",
-    "Wonderful! You're doing great!",
-  ];
+/**
+ * Normalize text for comparison (lowercase, remove punctuation, trim)
+ */
+function normalizeText(text) {
+  if (!text) return '';
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '') // Remove punctuation
+    .trim();
+}
 
-  return feedbacks[Math.floor(Math.random() * feedbacks.length)];
+/**
+ * Compare transcription with expected text
+ * Returns true if they match (with some tolerance for minor differences)
+ */
+function compareTranscription(transcription, expectedText) {
+  if (!transcription || !expectedText) return false;
+  
+  const normalizedTranscription = normalizeText(transcription);
+  const normalizedExpected = normalizeText(expectedText);
+  
+  // Exact match
+  if (normalizedTranscription === normalizedExpected) {
+    return true;
+  }
+  
+  // Check if transcription contains the expected text (for longer sentences)
+  if (normalizedTranscription.includes(normalizedExpected) || 
+      normalizedExpected.includes(normalizedTranscription)) {
+    return true;
+  }
+  
+  // For word-level prompts, check if transcription contains the word
+  const expectedWords = normalizedExpected.split(/\s+/);
+  const transcriptionWords = normalizedTranscription.split(/\s+/);
+  
+  // If expected is a single word, check if it appears in transcription
+  if (expectedWords.length === 1) {
+    return transcriptionWords.includes(expectedWords[0]);
+  }
+  
+  // For sentences, check if all key words are present
+  const keyWords = expectedWords.filter(word => word.length > 2); // Ignore short words like "the", "a"
+  const foundWords = keyWords.filter(word => 
+    transcriptionWords.some(tw => tw === word || tw.includes(word) || word.includes(tw))
+  );
+  
+  // Match if at least 80% of key words are found
+  return foundWords.length >= Math.ceil(keyWords.length * 0.8);
+}
+
+/**
+ * Generate feedback based on transcription comparison
+ * @param {boolean} matches - Whether the transcription matches the expected text
+ * @param {string} expectedText - The expected text (optional, for custom messages)
+ */
+function generateFeedback(matches, expectedText = null) {
+  if (matches === null || matches === undefined) {
+    return "Good try! Keep practicing!";
+  }
+  
+  if (matches) {
+    const positiveFeedbacks = [
+      "Great job! You said that perfectly!",
+      "Excellent! Your pronunciation is spot on!",
+      "Perfect! You got it right!",
+      "Wonderful! You said it correctly!",
+      "Amazing! That was exactly right!",
+    ];
+    return positiveFeedbacks[Math.floor(Math.random() * positiveFeedbacks.length)];
+  } else {
+    const expectedMsg = expectedText ? ` The expected word was "${expectedText}".` : '';
+    const encouragingFeedbacks = [
+      `Good try!${expectedMsg} Let's try again!`,
+      `Not quite right.${expectedMsg} Keep practicing!`,
+      `Close! But the word was different.${expectedMsg} You can do it!`,
+      `Almost there! The word didn't quite match.${expectedMsg} Try again!`,
+    ];
+    return encouragingFeedbacks[Math.floor(Math.random() * encouragingFeedbacks.length)];
+  }
 }
 
 /**

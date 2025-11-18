@@ -3,26 +3,75 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: var(--space-5);
+  position: relative;
+  overflow: hidden;
 }
 
 .content {
   text-align: center;
-  color: var(--text-light);
+  color: var(--color-white);
+  position: relative;
+  z-index: 10;
+  max-width: var(--container-card);
 }
 
 .title {
-  font-size: 72px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-5);
+  text-shadow: var(--text-shadow-medium);
   animation: pulse 3s ease-in-out infinite;
+  color: var(--color-white);
 }
 
 .subtitle {
-  font-size: 28px;
-  margin-bottom: 20px;
-  opacity: 0.9;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-6);
+  opacity: 0.95;
+  text-shadow: var(--text-shadow-subtle);
+  color: var(--color-white);
+  font-weight: var(--font-weight-medium);
+}
+
+.decorativeDots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: var(--space-6) 0;
+}
+
+.dot {
+  width: var(--space-3);
+  height: var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-yellow-300);
+  opacity: var(--opacity-50);
+}
+
+.decorativeBlur1 {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 5rem;
+  height: 5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-yellow-200);
+  opacity: var(--opacity-30);
+  filter: blur(var(--blur-xl));
+  z-index: 1;
+}
+
+.decorativeBlur2 {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  width: 8rem;
+  height: 8rem;
+  border-radius: var(--radius-full);
+  background: var(--color-coral-200);
+  opacity: var(--opacity-30);
+  filter: blur(var(--blur-xl));
+  z-index: 1;
 }
 

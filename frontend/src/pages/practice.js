@@ -62,7 +62,13 @@ export default function Practice() {
         } else {
           setFeedback(result.feedback || "Great job!");
         }
-        setScore(score + 1); // Increment score
+        
+        // Only increment score if transcription matches expected text
+        if (result.matches === true) {
+          setScore(score + 1);
+        }
+        // If matches is false or null, don't increment score
+        
         setShowNext(true);
       }
     } catch (error) {
@@ -149,7 +155,7 @@ export default function Practice() {
           <button 
             className="btn btn-success" 
             onClick={handleNext}
-            style={{ marginTop: '30px' }}
+            style={{ marginTop: 'var(--space-8)' }}
           >
             {currentPromptIndex < PROMPTS.length - 1 ? 'Next' : 'Finish!'}
           </button>

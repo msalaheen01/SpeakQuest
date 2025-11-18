@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css';
 /**
  * Home Screen
  * Entry point of the app with "Start Practice" button
+ * Using Kids Mode design system
  */
 export default function Home() {
   const router = useRouter();
@@ -14,25 +15,28 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      {/* Decorative background blurs */}
+      <div className={styles.decorativeBlur1} />
+      <div className={styles.decorativeBlur2} />
+      
       <div className={styles.content}>
         <h1 className={styles.title}>🎤 SpeakQuest</h1>
         <p className={styles.subtitle}>Let's practice speaking together!</p>
         
+        {/* Decorative dots */}
+        <div className={styles.decorativeDots}>
+          <div className={styles.dot} />
+          <div className={styles.dot} />
+          <div className={styles.dot} />
+        </div>
+        
         <button 
-          className="btn" 
+          className="btn btn-primary-kids" 
           onClick={handleStartPractice}
-          style={{ marginTop: '40px' }}
+          style={{ marginTop: 'var(--space-10)' }}
         >
           Start Practice
         </button>
-
-        {/* Optional: Future toggle for Kids Mode vs Therapist Mode */}
-        {/* <div style={{ marginTop: '20px' }}>
-          <label>
-            <input type="checkbox" />
-            Therapist Mode
-          </label>
-        </div> */}
       </div>
     </div>
   );

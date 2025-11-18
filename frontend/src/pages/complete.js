@@ -48,9 +48,9 @@ export default function Complete() {
 
         {/* Back to Home Button */}
         <button 
-          className="btn" 
+          className="btn btn-primary-kids" 
           onClick={handleBackToHome}
-          style={{ marginTop: '40px' }}
+          style={{ marginTop: 'var(--space-10)' }}
         >
           Back to Home
         </button>
