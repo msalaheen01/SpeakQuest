@@ -41,16 +41,27 @@ export default function Practice() {
   };
 
   // Handle recording stop and analysis
-  const handleRecordStop = async () => {
+  const handleRecordStop = async (audioBlob) => {
     setIsRecording(false);
+    
+    if (!audioBlob) {
+      // Recording failed or was cancelled
+      return;
+    }
+    
     setIsAnalyzing(true);
 
     try {
-      // Call backend API for analysis
-      const result = await analyzeSpeech();
+      // Call backend API for transcription
+      const result = await analyzeSpeech(audioBlob, currentPrompt);
       
       if (result.success) {
-        setFeedback(result.feedback);
+        // Store transcription separately for better display
+        if (result.transcription) {
+          setFeedback(`You said: "${result.transcription}"\n\n${result.feedback || "Great job!"}`);
+        } else {
+          setFeedback(result.feedback || "Great job!");
+        }
         setScore(score + 1); // Increment score
         setShowNext(true);
       }

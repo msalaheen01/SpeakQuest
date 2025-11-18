@@ -24,6 +24,7 @@ SpeakQuest/
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm or yarn
+- OpenAI API key (get one at https://platform.openai.com/api-keys)
 
 ### Installation & Running
 
@@ -33,13 +34,56 @@ cd backend
 npm install
 ```
 
-#### 2. Install Frontend Dependencies
+**Note:** The `dotenv` package is already included in the dependencies. It will be installed automatically with `npm install`.
+
+#### 2. Set Up Environment Variables
+
+Create a `.env` file in the `backend` directory to store your OpenAI API key:
+
+**Windows (PowerShell):**
+```powershell
+cd backend
+New-Item -Path .env -ItemType File
+```
+
+**Windows (Command Prompt):**
+```cmd
+cd backend
+type nul > .env
+```
+
+**Mac/Linux:**
+```bash
+cd backend
+touch .env
+```
+
+Then open the `.env` file and add your OpenAI API key:
+
+```env
+OPENAI_API_KEY=sk-your-actual-api-key-here
+PORT=3001
+```
+
+**Getting Your OpenAI API Key:**
+1. Go to https://platform.openai.com/api-keys
+2. Sign in or create an account
+3. Click "Create new secret key"
+4. Copy the key (it starts with `sk-`)
+5. Paste it into your `.env` file
+
+**Important:**
+- Never commit the `.env` file to git (it's already in `.gitignore`)
+- Replace `sk-your-actual-api-key-here` with your actual key
+- No spaces around the `=` sign: use `KEY=value` not `KEY = value`
+
+#### 3. Install Frontend Dependencies
 ```bash
 cd ../frontend
 npm install
 ```
 
-#### 3. Run Both Servers
+#### 4. Run Both Servers
 
 **Option A: Run in separate terminals**
 
@@ -83,16 +127,22 @@ npm run dev
 1. **Home Screen**: Click "Start Practice" to begin
 2. **Practice Screen**: 
    - Read the speech prompt
-   - Click the microphone button to start recording (simulated 2 seconds)
-   - Wait for analysis feedback
+   - Click the microphone button to start recording
+   - Speak clearly into your microphone
+   - Click the button again to stop recording (or it will auto-stop)
+   - Wait for transcription and feedback
+   - See what you said displayed on screen
    - Click "Next" to continue
 3. **Complete Screen**: View your stars and score, then return home
+
+**Note:** Make sure to allow microphone permissions when prompted by your browser.
 
 ## 🎨 Features
 
 - ✅ Kids-friendly UI with bright colors and large buttons
-- ✅ Simulated speech recording (2 seconds)
-- ✅ Simulated speech analysis with feedback
+- ✅ Real audio recording using Web Audio API
+- ✅ Speech-to-text transcription using OpenAI Whisper API
+- ✅ Real-time transcription display
 - ✅ Progress tracking with visual progress bar
 - ✅ Gamification: score and stars system
 - ✅ Smooth animations and transitions
@@ -102,31 +152,38 @@ npm run dev
 
 The architecture is set up to easily add:
 
-- **Real Speech Recognition**: Integrate OpenAI Whisper API or Web Speech API
-- **Audio Recording**: Use Web Audio API for actual microphone input
 - **Database**: Store user progress and session history
 - **VR/Games Integration**: Space prepared for immersive speech practice
 - **Therapist Mode**: Admin dashboard for progress monitoring
 - **Advanced Analytics**: Detailed pronunciation scoring and suggestions
+- **Speaker Diarization**: Identify different speakers in recordings
+- **Real-time Streaming**: Stream transcriptions as you speak
 
 ## 📝 API Endpoints
 
 ### POST `/api/analyze`
-Simulated speech analysis endpoint.
+Speech transcription endpoint using OpenAI's Audio API.
 
 **Request:**
-```json
-{
-  "prompt": "placeholder",
-  "timestamp": "2024-01-01T00:00:00.000Z"
-}
-```
+- Content-Type: `multipart/form-data`
+- Body: Audio file (webm, mp3, wav, etc.) and optional prompt text
 
 **Response:**
 ```json
 {
   "success": true,
+  "transcription": "The transcribed text from the audio",
   "feedback": "Great job! You said that perfectly!"
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "transcription": null,
+  "feedback": "Oops! Something went wrong during transcription."
 }
 ```
 
@@ -145,6 +202,10 @@ Health check endpoint.
 
 - **Frontend**: Next.js 14, React 18
 - **Backend**: Node.js, Express.js
+- **Audio**: Web Audio API (MediaRecorder)
+- **Transcription**: OpenAI Audio API (gpt-4o-transcribe / whisper-1)
+- **File Upload**: Multer
+- **Environment Variables**: dotenv
 - **Styling**: CSS Modules with custom animations
 - **No Database**: All data stored in memory (for demo)
 
@@ -153,12 +214,30 @@ Health check endpoint.
 ### Backend Development
 - Uses `nodemon` for auto-reload during development
 - CORS enabled for frontend communication
-- Simulated 1-second delay for realistic API response
+- Environment variables loaded via `dotenv` from `.env` file
+- Audio file uploads handled with `multer` (25MB limit)
+- OpenAI API integration for speech transcription
 
 ### Frontend Development
 - Next.js hot reload enabled
-- API proxy configured for development
+- Real audio recording with MediaRecorder API
+- FormData used to send audio files to backend
 - Fallback responses if backend is unavailable
+
+### Environment Variables
+
+The backend uses `dotenv` to load environment variables from a `.env` file. Required variables:
+
+- `OPENAI_API_KEY` - Your OpenAI API key (required)
+- `PORT` - Server port (optional, defaults to 3001)
+
+**Setup:**
+1. `dotenv` is already installed as a dependency
+2. Create a `.env` file in the `backend` directory
+3. Add your `OPENAI_API_KEY` to the file
+4. Restart the server after creating/modifying `.env`
+
+See `backend/README_ENV.md` for detailed environment variable setup instructions.
 
 ## 🎯 Demo Flow
 

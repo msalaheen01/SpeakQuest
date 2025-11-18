@@ -11,29 +11,20 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 /**
- * Analyze speech input
- * Currently sends a placeholder request
- * 
- * Future: This would send actual audio data:
- * const formData = new FormData();
- * formData.append('audio', audioBlob, 'recording.webm');
- * return fetch(`${API_BASE_URL}/api/analyze`, {
- *   method: 'POST',
- *   body: formData
- * }).then(res => res.json());
+ * Analyze speech input and transcribe audio
+ * Sends audio file to backend for transcription
  */
-export async function analyzeSpeech() {
+export async function analyzeSpeech(audioBlob, prompt = '') {
   try {
+    const formData = new FormData();
+    formData.append('audio', audioBlob, 'recording.webm');
+    if (prompt) {
+      formData.append('prompt', prompt);
+    }
+
     const response = await fetch(`${API_BASE_URL}/api/analyze`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        // Future: Include audio data, prompt text, etc.
-        prompt: 'placeholder',
-        timestamp: new Date().toISOString(),
-      }),
+      body: formData,
     });
 
     if (!response.ok) {
@@ -45,8 +36,9 @@ export async function analyzeSpeech() {
     console.error('API Error:', error);
     // Fallback response if backend is unavailable
     return {
-      success: true,
-      feedback: "Great job! Keep practicing!",
+      success: false,
+      feedback: "Oops! Could not connect to the server. Please try again.",
+      transcription: null,
     };
   }
 }
