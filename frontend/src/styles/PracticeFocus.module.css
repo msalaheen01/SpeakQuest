@@ -1,0 +1,118 @@
+/**
+ * Practice Focus Card - Professional Dashboard Style
+ */
+
+.practiceFocusContainer {
+  width: 100%;
+  padding: var(--space-8);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.practiceFocusContainer:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-ai-primary);
+}
+
+.header {
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  font-weight: var(--font-weight-normal);
+}
+
+.suggestionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.suggestionItem {
+  padding: var(--space-5);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-ai-primary);
+  transition: all var(--transition-base);
+}
+
+.suggestionItem:hover {
+  background: var(--color-bg-hover);
+  border-left-color: var(--color-ai-primary-light);
+  transform: translateX(2px);
+}
+
+.suggestionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.suggestionWord {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.suggestionBadge {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ai-primary);
+  background: var(--color-ai-glow);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(58, 122, 254, 0.2);
+}
+
+.suggestionReason {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+  font-style: italic;
+}
+
+.suggestionStats {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  flex-wrap: wrap;
+}
+
+.practiceButton {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-ai-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.practiceButton:hover {
+  background: var(--color-ai-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}

@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/design-system.css';
 
 /**
  * Next.js App Component

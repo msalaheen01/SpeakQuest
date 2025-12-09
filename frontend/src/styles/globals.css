@@ -1,9 +1,9 @@
 /**
- * Global Styles for SpeakQuest
- * Using the design system from style_assets
+ * Global Styles for SpeakBetter
+ * Professional AI Co-Pilot Dashboard
  */
 
-@import './design-tokens.css';
+@import './design-system.css';
 
 * {
   box-sizing: border-box;
@@ -15,15 +15,15 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: var(--font-family-base);
+  font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--gradient-blue);
+  background: var(--color-bg-primary);
   min-height: 100vh;
 }
 
 body {
-  color: var(--color-gray-800);
+  color: var(--color-text-primary);
 }
 
 a {
@@ -31,77 +31,23 @@ a {
   text-decoration: none;
 }
 
-/* Button Styles - Using Design System */
-.btn {
-  border: none;
-  cursor: pointer;
-  transition: all var(--duration-base) var(--easing-ease-in-out);
-  font-family: var(--font-family-base);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
+/* Progress Bar - Professional Style */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-tertiary);
+  overflow: hidden;
 }
 
-.btn-primary-kids {
-  background: var(--gradient-mint);
-  color: var(--color-white);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-6) var(--space-6);
-  font-weight: var(--font-weight-bold);
-  font-size: 19px;
-  box-shadow: var(--shadow-lg);
-  text-shadow: var(--text-shadow-subtle);
-}
-
-.btn-primary-kids:hover {
-  box-shadow: var(--shadow-xl);
-  transform: scale(var(--scale-hover-sm));
-}
-
-.btn-primary-kids:active {
-  transform: scale(var(--scale-active));
-}
-
-.btn-success {
-  background: var(--gradient-mint);
-  color: var(--color-white);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-6) var(--space-6);
-  font-weight: var(--font-weight-bold);
-  font-size: 19px;
-  box-shadow: var(--shadow-lg);
-  text-shadow: var(--text-shadow-subtle);
-}
-
-.btn-success:hover {
-  box-shadow: var(--shadow-xl);
-  transform: scale(var(--scale-hover-sm));
-}
-
-/* Card Styles - Using Design System */
-.card {
-  background: var(--color-white);
-  border-radius: var(--radius-3xl);
-  padding: var(--space-8);
-  box-shadow: var(--shadow-xl);
-  text-align: center;
-  max-width: var(--container-card);
-  margin: 0 auto;
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-ai-primary) 0%, var(--color-ai-primary-light) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Animations */
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-}
-
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -111,56 +57,7 @@ a {
   }
 }
 
-.pulse {
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
 .spin {
   animation: spin 1s linear infinite;
-}
-
-/* Progress Bar - Using Design System */
-.progress-bar {
-  width: 100%;
-  height: 0.5rem;
-  border-radius: var(--radius-full);
-  background: var(--color-gray-200);
-  overflow: hidden;
-  margin: var(--space-5) 0;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--gradient-blue-progress);
-  border-radius: var(--radius-full);
-  transition: width var(--duration-slow) var(--easing-ease-out);
-}
-
-/* Star Rating - Using Design System */
-.stars {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-4);
-  margin: var(--space-8) 0;
-  font-size: 3rem;
-}
-
-.star {
-  color: var(--color-yellow-400);
-  text-shadow: var(--text-shadow-medium);
-  animation: pulse 2s ease-in-out infinite;
-  filter: drop-shadow(0 2px 4px rgba(255, 230, 109, 0.4));
-}
-
-.star:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.star:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.star:nth-child(3) {
-  animation-delay: 0.4s;
 }
 

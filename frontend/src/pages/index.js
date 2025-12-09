@@ -1,42 +1,66 @@
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
+import { getReviewQueue } from '../utils/storage';
+import PracticeFocus from '../components/PracticeFocus';
 
 /**
- * Home Screen
- * Entry point of the app with "Start Practice" button
- * Using Kids Mode design system
+ * Home Screen - Professional Dashboard
+ * Entry point with clean, modern layout
  */
 export default function Home() {
   const router = useRouter();
+  const [reviewCount, setReviewCount] = useState(0);
+
+  useEffect(() => {
+    // Check review queue size
+    const reviewQueue = getReviewQueue();
+    setReviewCount(reviewQueue.length);
+  }, []);
 
   const handleStartPractice = () => {
     router.push('/practice');
   };
 
+  const handleReviewMistakes = () => {
+    router.push('/review');
+  };
+
   return (
     <div className={styles.container}>
-      {/* Decorative background blurs */}
-      <div className={styles.decorativeBlur1} />
-      <div className={styles.decorativeBlur2} />
-      
       <div className={styles.content}>
-        <h1 className={styles.title}>🎤 SpeakQuest</h1>
-        <p className={styles.subtitle}>Let's practice speaking together!</p>
-        
-        {/* Decorative dots */}
-        <div className={styles.decorativeDots}>
-          <div className={styles.dot} />
-          <div className={styles.dot} />
-          <div className={styles.dot} />
+        <div className={styles.header}>
+          <h1 className={styles.title}>SpeakBetter</h1>
+          <p className={styles.subtitle}>
+            AI-powered pronunciation practice with real-time feedback
+          </p>
+          <div className={styles.aiBadge}>
+            <span>🤖</span>
+            <span>AI Co-Pilot</span>
+          </div>
         </div>
         
-        <button 
-          className="btn btn-primary-kids" 
-          onClick={handleStartPractice}
-          style={{ marginTop: 'var(--space-10)' }}
-        >
-          Start Practice
-        </button>
+        <div className={styles.actions}>
+          <button 
+            className={`${styles.actionButton} ${styles.actionButtonPrimary}`}
+            onClick={handleStartPractice}
+          >
+            Start Practice
+          </button>
+          
+          {reviewCount > 0 && (
+            <button 
+              className={`${styles.actionButton} ${styles.actionButtonSecondary}`}
+              onClick={handleReviewMistakes}
+            >
+              Review Mistakes
+              <span className={styles.reviewBadge}>{reviewCount}</span>
+            </button>
+          )}
+        </div>
+        
+        {/* Practice Focus Suggestions */}
+        <PracticeFocus limit={3} />
       </div>
     </div>
   );

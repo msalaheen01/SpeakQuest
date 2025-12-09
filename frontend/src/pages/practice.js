@@ -1,42 +1,50 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import MicButton from '../components/MicButton';
+import FeedbackCard from '../components/FeedbackCard';
+import PastAttempts from '../components/PastAttempts';
+import WhisperInterpretability from '../components/WhisperInterpretability';
+import SessionSummary from '../components/SessionSummary';
 import styles from '../styles/Practice.module.css';
-import { analyzeSpeech } from '../api';
+import { evaluatePronunciation } from '../api';
+import { WORD_LIST, getNextWord } from '../utils/words';
+import { logAttempt, getWordStats, getAttemptHistory } from '../utils/storage';
 
 /**
  * Practice Screen
  * Main interaction loop:
- * 1. Show speech prompt
+ * 1. Show target word
  * 2. User clicks mic to record
  * 3. Show "Analyzing..." state
- * 4. Display feedback
- * 5. Move to next prompt or complete
+ * 4. Display feedback and log attempt
+ * 5. Move to next word
  */
-
-// Speech prompts array
-const PROMPTS = [
-  "Say the word: 'Rabbit'",
-  "Try saying: 'Red'",
-  "Say this sentence: 'The rabbit ran fast.'"
-];
 
 export default function Practice() {
   const router = useRouter();
-  const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentWord, setCurrentWord] = useState(WORD_LIST[0]);
   const [isRecording, setIsRecording] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [feedback, setFeedback] = useState(null);
-  const [score, setScore] = useState(0);
+  const [result, setResult] = useState(null);
+  const [wordStats, setWordStats] = useState(null);
+  const [attemptHistory, setAttemptHistory] = useState([]);
   const [showNext, setShowNext] = useState(false);
+  const [attemptCount, setAttemptCount] = useState(0);
+  const [sessionWords, setSessionWords] = useState([]);
+  const [showSessionSummary, setShowSessionSummary] = useState(false);
 
-  const currentPrompt = PROMPTS[currentPromptIndex];
-  const progress = ((currentPromptIndex + 1) / PROMPTS.length) * 100;
+  // Load word stats and history when word changes
+  useEffect(() => {
+    const stats = getWordStats(currentWord);
+    setWordStats(stats);
+    setAttemptHistory(getAttemptHistory(currentWord));
+  }, [currentWord]);
 
   // Handle recording start
   const handleRecordStart = () => {
     setIsRecording(true);
-    setFeedback(null);
+    setResult(null);
     setShowNext(false);
   };
 
@@ -52,73 +60,78 @@ export default function Practice() {
     setIsAnalyzing(true);
 
     try {
-      // Call backend API for transcription
-      const result = await analyzeSpeech(audioBlob, currentPrompt);
+      // Use the enhanced evaluatePronunciation function
+      const evaluationResult = await evaluatePronunciation(audioBlob, currentWord);
       
-      if (result.success) {
-        // Store transcription separately for better display
-        if (result.transcription) {
-          setFeedback(`You said: "${result.transcription}"\n\n${result.feedback || "Great job!"}`);
-        } else {
-          setFeedback(result.feedback || "Great job!");
-        }
-        
-        // Only increment score if transcription matches expected text
-        if (result.matches === true) {
-          setScore((prevScore) => prevScore + 1);
-        }
-        // If matches is false or null, don't increment score
-        
-        setShowNext(true);
+      // Store the full result for display
+      setResult(evaluationResult);
+      
+      // Log the attempt with full result data
+      logAttempt(currentWord, evaluationResult);
+      
+      // Update word stats and history
+      const updatedStats = getWordStats(currentWord);
+      setWordStats(updatedStats);
+      setAttemptCount(updatedStats.attempts);
+      setAttemptHistory(getAttemptHistory(currentWord));
+      
+      // Track session words
+      if (!sessionWords.includes(currentWord)) {
+        setSessionWords([...sessionWords, currentWord]);
       }
+      
+      setShowNext(true);
     } catch (error) {
       console.error('Analysis error:', error);
-      setFeedback("Oops! Something went wrong. Let's try again!");
+      setResult({
+        transcription: '',
+        expected: currentWord,
+        grade: 'incorrect',
+        clarityScore: null,
+        similarityScore: 0,
+        feedback: "Oops! Something went wrong. Let's try again!",
+      });
       setShowNext(true);
     } finally {
       setIsAnalyzing(false);
     }
   };
 
-  // Move to next prompt
+  // Move to next word
   const handleNext = () => {
-    if (currentPromptIndex < PROMPTS.length - 1) {
-      setCurrentPromptIndex(currentPromptIndex + 1);
-      setFeedback(null);
-      setShowNext(false);
-    } else {
-      // All prompts completed - go to completion screen
-      router.push({
-        pathname: '/complete',
-        query: { score } // Pass the actual number of correct answers
-      });
-    }
+    const next = getNextWord(currentWordIndex);
+    setCurrentWordIndex(next.index);
+    setCurrentWord(next.word);
+    setResult(null);
+    setShowNext(false);
+  };
+
+  // Go back to home
+  const handleBackToHome = () => {
+    router.push('/');
   };
 
   return (
     <div className={styles.container}>
-      {/* Progress Bar */}
-      <div className={styles.progressContainer}>
-        <div className="progress-bar">
-          <div 
-            className="progress-fill" 
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <p className={styles.progressText}>
-          {currentPromptIndex + 1} of {PROMPTS.length}
-        </p>
-      </div>
-
-      {/* Main Content */}
-      <div className="card">
-        <h2 className={styles.promptTitle}>Your Turn!</h2>
-        
-        <div className={styles.promptCard}>
-          <p className={styles.promptText}>{currentPrompt}</p>
+      <div className={styles.dashboard}>
+        {/* Header */}
+        <div className={styles.header}>
+          <button 
+            className={styles.backButton}
+            onClick={handleBackToHome}
+          >
+            ← Home
+          </button>
         </div>
 
-        {/* Microphone Button */}
+        {/* Word Card - Full Width */}
+        <div className={styles.wordCard}>
+          <div className={styles.wordTitle}>Current Word</div>
+          <div className={styles.wordText}>{currentWord}</div>
+          <div className={styles.wordHint}>Pronounce this word clearly</div>
+        </div>
+
+        {/* Microphone Button - Centered, Floating */}
         <div className={styles.micContainer}>
           <MicButton
             isRecording={isRecording}
@@ -126,38 +139,43 @@ export default function Practice() {
             onRecordStop={handleRecordStop}
             disabled={isAnalyzing || showNext}
           />
+          
+          {/* Status Messages */}
+          {isRecording && (
+            <div className={styles.statusMessage}>
+              <span className={styles.statusIcon}>🎤</span>
+              <span>Recording...</span>
+            </div>
+          )}
+
+          {isAnalyzing && (
+            <div className={styles.statusMessage}>
+              <span className={styles.statusIcon}>⏳</span>
+              <span>Analyzing...</span>
+            </div>
+          )}
         </div>
 
-        {/* Status Messages */}
-        {isRecording && (
-          <div className={styles.status}>
-            <p className={`${styles.statusText} pulse`}>🎤 Recording...</p>
-          </div>
+        {/* Feedback Card - Appears directly below mic after speaking */}
+        {result && (
+          <FeedbackCard result={result} attemptHistory={attemptHistory} />
         )}
 
-        {isAnalyzing && (
-          <div className={styles.status}>
-            <p className={styles.statusText}>
-              <span className="spin">⏳</span> Analyzing...
-            </p>
-          </div>
+        {/* Insights - Whisper Interpretability */}
+        {result && (
+          <WhisperInterpretability result={result} expected={currentWord} />
         )}
 
-        {/* Feedback Message */}
-        {feedback && (
-          <div className={styles.feedback}>
-            <p className={styles.feedbackText}>{feedback}</p>
-          </div>
-        )}
+        {/* Past Attempts History - Full Width */}
+        <PastAttempts attemptHistory={attemptHistory} />
 
-        {/* Next Button */}
+        {/* Next Button - Full Width */}
         {showNext && (
           <button 
-            className="btn btn-success" 
+            className={styles.nextButton}
             onClick={handleNext}
-            style={{ marginTop: 'var(--space-8)' }}
           >
-            {currentPromptIndex < PROMPTS.length - 1 ? 'Next' : 'Finish!'}
+            Next Word →
           </button>
         )}
       </div>

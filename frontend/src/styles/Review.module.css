@@ -1,0 +1,291 @@
+/**
+ * Review Screen - Professional Dashboard with Sidebar
+ */
+
+.container {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+  padding: var(--space-6) var(--space-4);
+}
+
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.backButton:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-dark);
+}
+
+.progressInfo {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.progressContainer {
+  margin-bottom: var(--space-2);
+  padding: var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-ai-primary) 0%, var(--color-ai-primary-light) 100%);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+/* Sidebar for Review Queue */
+.sidebar {
+  display: none; /* Hidden on mobile */
+}
+
+.sidebarCard {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: var(--space-6);
+  max-height: calc(100vh - var(--space-12));
+  overflow-y: auto;
+  transition: all var(--transition-base);
+}
+
+.sidebarCard:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-dark);
+}
+
+.sidebarTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.wordList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.wordItem {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 1px solid transparent;
+}
+
+.wordItem:hover {
+  background: var(--color-bg-hover);
+}
+
+.wordItemActive {
+  background: var(--color-ai-glow);
+  border-color: var(--color-ai-primary);
+  color: var(--color-ai-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.wordItemText {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.wordItemActive .wordItemText {
+  color: var(--color-ai-primary);
+}
+
+/* Main Content */
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Word Card */
+.wordCard {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.wordCard:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-dark);
+}
+
+.wordTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-4);
+}
+
+.wordText {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: var(--space-4) 0;
+  letter-spacing: -0.02em;
+}
+
+.wordHint {
+  font-size: var(--font-size-base);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-4);
+}
+
+/* Microphone Card */
+.micCard {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.micCard:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-dark);
+}
+
+.micContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statusMessage {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.statusIcon {
+  font-size: var(--font-size-lg);
+}
+
+/* Feedback Section */
+.feedbackSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Next Button */
+.nextButton {
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-ai-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.nextButton:hover:not(:disabled) {
+  background: var(--color-ai-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.nextButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (min-width: 1024px) {
+  .dashboard {
+    grid-template-columns: 280px 1fr;
+  }
+  
+  .layout {
+    grid-column: 2;
+  }
+  
+  .sidebar {
+    display: block;
+    grid-column: 1;
+    grid-row: 1 / -1;
+  }
+  
+  .header,
+  .progressContainer {
+    grid-column: 2;
+  }
+  
+  .mainContent {
+    min-width: 0; /* Prevent grid overflow */
+  }
+}
+

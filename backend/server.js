@@ -87,23 +87,71 @@ app.post('/api/analyze', upload.single('audio'), async (req, res) => {
 
     try {
       // Transcribe audio using OpenAI - try gpt-4o-transcribe first, fallback to whisper-1
+      // Request verbose_json to get metadata (segments, logprobs, etc.)
       let transcription;
+      let whisperMetadata = null;
+      
       try {
-        transcription = await openai.audio.transcriptions.create({
+        const response = await openai.audio.transcriptions.create({
           file: fs.createReadStream(tempFilePath),
           model: 'gpt-4o-transcribe',
-          response_format: 'text',
+          response_format: 'verbose_json', // Get metadata
           prompt: req.body.prompt || '', // Optional prompt for context
         });
+        
+        // Handle both string (text format fallback) and object (verbose_json) responses
+        if (typeof response === 'string') {
+          transcription = response;
+        } else {
+          transcription = response.text || '';
+          whisperMetadata = {
+            segments: response.segments || [],
+            language: response.language || null,
+            duration: response.duration || null,
+            // Extract average log probability from segments
+            avgLogprob: response.segments && response.segments.length > 0
+              ? response.segments.reduce((sum, seg) => sum + (seg.avg_logprob || 0), 0) / response.segments.length
+              : null,
+            compression_ratio: response.compression_ratio || null,
+            no_speech_prob: response.no_speech_prob || null,
+          };
+        }
       } catch (gpt4Error) {
         // Fallback to whisper-1 if gpt-4o-transcribe fails
         console.log('Falling back to whisper-1:', gpt4Error.message);
-        transcription = await openai.audio.transcriptions.create({
-          file: fs.createReadStream(tempFilePath),
-          model: 'whisper-1',
-          response_format: 'text',
-          prompt: req.body.prompt || '',
-        });
+        try {
+          const response = await openai.audio.transcriptions.create({
+            file: fs.createReadStream(tempFilePath),
+            model: 'whisper-1',
+            response_format: 'verbose_json',
+            prompt: req.body.prompt || '',
+          });
+          
+          if (typeof response === 'string') {
+            transcription = response;
+          } else {
+            transcription = response.text || '';
+            whisperMetadata = {
+              segments: response.segments || [],
+              language: response.language || null,
+              duration: response.duration || null,
+              avgLogprob: response.segments && response.segments.length > 0
+                ? response.segments.reduce((sum, seg) => sum + (seg.avg_logprob || 0), 0) / response.segments.length
+                : null,
+              compression_ratio: response.compression_ratio || null,
+              no_speech_prob: response.no_speech_prob || null,
+            };
+          }
+        } catch (whisperError) {
+          // Final fallback: try text format if verbose_json fails
+          console.log('Falling back to text format:', whisperError.message);
+          transcription = await openai.audio.transcriptions.create({
+            file: fs.createReadStream(tempFilePath),
+            model: 'whisper-1',
+            response_format: 'text',
+            prompt: req.body.prompt || '',
+          });
+        }
       }
 
       // Clean up temp file
@@ -111,7 +159,7 @@ app.post('/api/analyze', upload.single('audio'), async (req, res) => {
 
       // Generate feedback based on transcription
       const expectedText = extractExpectedText(req.body.prompt || '');
-      const transcriptionText = transcription.trim();
+      const transcriptionText = typeof transcription === 'string' ? transcription.trim() : '';
       
       // Check if transcription is empty
       if (!transcriptionText) {
@@ -121,6 +169,7 @@ app.post('/api/analyze', upload.single('audio'), async (req, res) => {
           feedback: "I couldn't hear anything. Please try speaking louder!",
           matches: false,
           expectedText: expectedText,
+          metadata: whisperMetadata,
         });
       }
       
@@ -133,6 +182,7 @@ app.post('/api/analyze', upload.single('audio'), async (req, res) => {
         feedback: feedback,
         matches: matches, // Include match status for frontend
         expectedText: expectedText, // Include expected text for debugging/display
+        metadata: whisperMetadata, // Include Whisper metadata for advanced analysis
       });
     } catch (transcriptionError) {
       // Clean up temp file on error

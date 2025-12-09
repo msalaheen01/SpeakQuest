@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router';
 import styles from '../styles/Complete.module.css';
 
-const STAR_ICON = '\u2605';
-
 /**
  * Session Complete Screen
- * Shows completion message, stars, and score
+ * Professional completion view
  */
 export default function Complete() {
   const router = useRouter();
@@ -17,24 +15,22 @@ export default function Complete() {
   };
 
   const totalStars = Math.max(finalScore, 0);
-  const starArray = Array.from({ length: totalStars });
 
   return (
     <div className={styles.container}>
-      <div className="card">
-        <h1 className={styles.title}>Congratulations! Session Complete!</h1>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Session Complete</h1>
         
-        <p className={styles.message}>You did an amazing job!</p>
+        <p className={styles.message}>Great work on your pronunciation practice!</p>
 
         {/* Stars Display */}
-        <div className="stars">
+        <div className={styles.stars}>
           {[...Array(3)].map((_, index) => (
             <span 
               key={index} 
-              className="star"
+              className={styles.star}
               style={{ 
-                opacity: index < totalStars ? 1 : 0.3,
-                fontSize: '64px'
+                opacity: index < totalStars ? 1 : 0.2,
               }}
             >
               ⭐
@@ -44,17 +40,16 @@ export default function Complete() {
 
         {/* Score Display */}
         <div className={styles.scoreContainer}>
-          <p className={styles.scoreLabel}>You earned</p>
-          <p className={styles.scoreValue}>{finalScore} {finalScore === 1 ? 'star' : 'stars'}!</p>
+          <p className={styles.scoreLabel}>Score</p>
+          <p className={styles.scoreValue}>{finalScore} / 3</p>
         </div>
 
         {/* Back to Home Button */}
         <button 
-          className="btn btn-primary-kids" 
+          className={styles.backButton}
           onClick={handleBackToHome}
-          style={{ marginTop: 'var(--space-10)' }}
         >
-          Back to Home
+          Continue Practicing
         </button>
       </div>
     </div>
