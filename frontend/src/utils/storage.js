@@ -3,6 +3,8 @@
  * Tracks word attempts, mistakes, and review queue
  */
 
+import { WORD_LIST } from './words';
+
 const STORAGE_KEY = 'speakbetter_progress';
 const REVIEW_THRESHOLD = 2; // Words with 2+ mistakes go to review
 const MASTERY_THRESHOLD = 2; // Remove from review after 2 consecutive correct attempts
@@ -161,12 +163,18 @@ export function getAttemptHistory(word) {
 
 /**
  * Get all words that need review
+ * Only includes words from the current word list
  */
 export function getReviewQueue() {
   const progress = getProgress();
   const reviewWords = [];
   
   for (const [word, stats] of Object.entries(progress)) {
+    // Only include words that are in the current WORD_LIST
+    if (!WORD_LIST.includes(word)) {
+      continue;
+    }
+    
     if (stats.inReview) {
       reviewWords.push({
         word,
