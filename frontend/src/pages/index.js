@@ -36,7 +36,7 @@ export default function Home() {
       <Container size="default">
         <Section spacing="large">
           <div className={styles.header}>
-            <Title>SpeakBetter</Title>
+            <Title>EchoSense</Title>
             <Subtitle>AI-powered pronunciation practice with real-time feedback</Subtitle>
           </div>
         </Section>

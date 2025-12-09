@@ -1,5 +1,5 @@
 /**
- * Word List for SpeakBetter
+ * Word List for EchoSense
  * Simple word list for pronunciation practice
  */
 
