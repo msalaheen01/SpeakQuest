@@ -5,7 +5,7 @@ import { getProgress } from '../utils/storage';
 
 /**
  * Session Reflection Modal Component
- * Shows "Three Things Whisper Learned About You Today"
+ * Shows "Things Whisper Learned About You Today"
  * 
  * @param {object} props
  * @param {boolean} props.isOpen - Whether modal is visible
@@ -104,7 +104,7 @@ export default function SessionReflectionModal({ isOpen, onClose, onContinue }) 
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Three Things Whisper Learned About You Today</h2>
+          <h2 className={styles.title}>Things Whisper Learned About You Today</h2>
           <button className={styles.closeButton} onClick={onClose}>×</button>
         </div>
         

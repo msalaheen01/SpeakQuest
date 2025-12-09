@@ -170,14 +170,14 @@ export default function Practice() {
                     {/* Status Messages */}
                     {isRecording && (
                       <div className={styles.statusMessage}>
-                        <span className={styles.statusIcon}>🎤</span>
+                        <span className={styles.statusIcon}></span>
                         <span>Recording...</span>
                       </div>
                     )}
 
                     {isAnalyzing && (
                       <div className={styles.statusMessage}>
-                        <span className={styles.statusIcon}>⏳</span>
+                        <span className={styles.statusIcon}></span>
                         <span>Analyzing...</span>
                       </div>
                     )}

@@ -18,10 +18,19 @@ export default function MetaFeedbackOverview() {
   const [aiPattern, setAiPattern] = useState(null);
 
   useEffect(() => {
-    setClarityTrend(getClarityTrend());
-    setSimilarityTrend(getSimilarityTrend());
-    setMisinterpretation(getMostCommonMisinterpretation());
-    setAiPattern(getAIPatternSummary());
+    // Refresh data when component mounts or when navigating back to home
+    const refreshData = () => {
+      setClarityTrend(getClarityTrend());
+      setSimilarityTrend(getSimilarityTrend());
+      setMisinterpretation(getMostCommonMisinterpretation());
+      setAiPattern(getAIPatternSummary());
+    };
+    
+    refreshData();
+    
+    // Also refresh when window gains focus (user navigates back)
+    window.addEventListener('focus', refreshData);
+    return () => window.removeEventListener('focus', refreshData);
   }, []);
 
   // Don't render if no data

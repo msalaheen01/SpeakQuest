@@ -4,6 +4,7 @@
  */
 
 import { getProgress } from './storage';
+import { WORD_LIST } from './words';
 
 /**
  * Get all attempts across all words, sorted by timestamp
@@ -96,12 +97,18 @@ export function getSimilarityTrend() {
 
 /**
  * Get most common misinterpretation pattern
+ * Only includes words from the current word list
  */
 export function getMostCommonMisinterpretation() {
   const progress = getProgress();
   const wordMistakes = [];
   
   Object.keys(progress).forEach(word => {
+    // Only include words that are in the current WORD_LIST
+    if (!WORD_LIST.includes(word)) {
+      return;
+    }
+    
     const wordData = progress[word];
     if (wordData.incorrectAttempts > 0) {
       wordMistakes.push({
