@@ -5,22 +5,38 @@
 .container {
   min-height: 100vh;
   background: var(--color-bg-primary);
-  padding: var(--space-6) var(--space-4);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard {
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--space-6);
+  padding: 0 var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  .dashboard {
+    grid-template-columns: 400px 1fr;
+    gap: var(--space-8);
+  }
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-6);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 0 var(--space-6);
 }
 
 .backButton {
@@ -44,20 +60,29 @@
   border-color: var(--color-border-dark);
 }
 
+/* Left Column - Microphone & Controls */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
 /* Word Card */
 .wordCard {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
   padding: var(--space-8);
   text-align: center;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
 }
 
 .wordCard:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border-dark);
+  background: var(--panel-bg-hover);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .wordTitle {
@@ -84,15 +109,35 @@
   margin-top: var(--space-4);
 }
 
-/* Microphone Container - Centered, No Card Wrapper */
+/* Microphone Card - Left Column */
+.micCard {
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  min-height: 300px;
+}
+
+.micCard:hover {
+  background: var(--panel-bg-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
 .micContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
-  padding: var(--space-8) 0;
-  min-height: 160px;
+  gap: var(--space-4);
 }
 
 .statusMessage {
@@ -134,14 +179,20 @@
   cursor: not-allowed;
 }
 
+/* Right Column - Feedback & Insights */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .wordText {
     font-size: var(--font-size-3xl);
   }
   
-  .micContainer {
-    min-height: 120px;
-    padding: var(--space-4) 0;
+  .micCard {
+    min-height: 250px;
   }
 }

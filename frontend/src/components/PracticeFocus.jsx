@@ -32,7 +32,7 @@ export default function PracticeFocus({ limit = 3 }) {
   return (
     <div className={styles.practiceFocusContainer}>
       <div className={styles.header}>
-        <h3 className={styles.title}>🎯 Practice Focus</h3>
+        <h3 className={styles.title}>Practice Focus</h3>
         <p className={styles.subtitle}>These {suggestions.length} word{suggestions.length !== 1 ? 's' : ''} need the most attention</p>
       </div>
       

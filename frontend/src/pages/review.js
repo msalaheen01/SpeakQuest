@@ -4,7 +4,9 @@ import MicButton from '../components/MicButton';
 import FeedbackCard from '../components/FeedbackCard';
 import PastAttempts from '../components/PastAttempts';
 import WhisperInterpretability from '../components/WhisperInterpretability';
-import styles from '../styles/Review.module.css';
+import SessionReflectionModal from '../components/SessionReflectionModal';
+import styles from '../styles/Practice.module.css';
+import reviewStyles from '../styles/Review.module.css';
 import { evaluatePronunciation } from '../api';
 import { getReviewQueue, getWordStats, logAttempt, removeFromReview, getAttemptHistory } from '../utils/storage';
 
@@ -24,6 +26,7 @@ export default function Review() {
   const [wordStats, setWordStats] = useState(null);
   const [attemptHistory, setAttemptHistory] = useState([]);
   const [showNext, setShowNext] = useState(false);
+  const [showReflectionModal, setShowReflectionModal] = useState(false);
 
   // Load review queue on mount
   useEffect(() => {
@@ -110,15 +113,31 @@ export default function Review() {
         setResult(null);
         setShowNext(false);
       } else {
-        // No more words to review - go back to home
-        router.push('/');
+        // No more words to review - show reflection modal
+        setShowReflectionModal(true);
       }
     }
   };
 
   // Go back to home
   const handleBackToHome = () => {
+    // Show reflection modal if user has made attempts
+    if (attemptHistory.length > 0 || reviewQueue.length > 0) {
+      setShowReflectionModal(true);
+    } else {
+      router.push('/');
+    }
+  };
+
+  // Handle reflection modal close
+  const handleReflectionClose = () => {
+    setShowReflectionModal(false);
     router.push('/');
+  };
+
+  // Handle continue practicing from reflection
+  const handleContinuePracticing = () => {
+    setShowReflectionModal(false);
   };
 
   // If no words in review queue
@@ -133,83 +152,45 @@ export default function Review() {
             ← Home
           </button>
         </div>
-        <div className={styles.mainContent}>
-          <div className={styles.wordCard} style={{ maxWidth: '600px', margin: '0 auto' }}>
-            <div className={styles.wordTitle}>Review Mode</div>
-            <div className={styles.wordText} style={{ fontSize: 'var(--font-size-2xl)', margin: 'var(--space-6) 0' }}>
-              No words need review
+        <div className={styles.dashboard}>
+          <div className={styles.leftColumn}>
+            <div className={styles.wordCard}>
+              <div className={styles.wordTitle}>Review Mode</div>
+              <div className={styles.wordText} style={{ fontSize: 'var(--font-size-2xl)', margin: 'var(--space-6) 0' }}>
+                No words need review
+              </div>
+              <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', marginTop: 'var(--space-4)' }}>
+                Keep practicing to identify words that need extra attention.
+              </p>
+              <button 
+                className={styles.nextButton}
+                onClick={handleBackToHome}
+                style={{ marginTop: 'var(--space-8)', maxWidth: '300px' }}
+              >
+                Back to Home
+              </button>
             </div>
-            <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', marginTop: 'var(--space-4)' }}>
-              Keep practicing to identify words that need extra attention.
-            </p>
-            <button 
-              className={styles.nextButton}
-              onClick={handleBackToHome}
-              style={{ marginTop: 'var(--space-8)', maxWidth: '300px' }}
-            >
-              Back to Home
-            </button>
           </div>
         </div>
       </div>
     );
   }
 
-  const progress = ((currentWordIndex + 1) / reviewQueue.length) * 100;
-
   return (
     <div className={styles.container}>
+      {/* Header */}
+      <div className={styles.header}>
+        <button 
+          className={styles.backButton}
+          onClick={handleBackToHome}
+        >
+          ← Home
+        </button>
+      </div>
+
       <div className={styles.dashboard}>
-        {/* Header */}
-        <div className={styles.header}>
-          <button 
-            className={styles.backButton}
-            onClick={handleBackToHome}
-          >
-            ← Home
-          </button>
-          <div className={styles.progressInfo}>
-            Review: {currentWordIndex + 1} of {reviewQueue.length}
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className={styles.progressContainer}>
-          <div className={styles.progressBar}>
-            <div 
-              className={styles.progressFill} 
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Layout with Sidebar */}
-        <div className={styles.layout}>
-        {/* Sidebar - Review Queue */}
-        <aside className={styles.sidebar}>
-          <div className={styles.sidebarCard}>
-            <div className={styles.sidebarTitle}>Review Queue</div>
-            <div className={styles.wordList}>
-              {reviewQueue.map((word, index) => (
-                <div
-                  key={word}
-                  className={`${styles.wordItem} ${index === currentWordIndex ? styles.wordItemActive : ''}`}
-                  onClick={() => {
-                    setCurrentWordIndex(index);
-                    setCurrentWord(word);
-                    setResult(null);
-                    setShowNext(false);
-                  }}
-                >
-                  <div className={styles.wordItemText}>{word}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        {/* Main Content */}
-        <div className={styles.mainContent}>
+        {/* Left Column - Microphone & Controls */}
+        <div className={styles.leftColumn}>
           {/* Word Card */}
           <div className={styles.wordCard}>
             <div className={styles.wordTitle}>Current Word</div>
@@ -217,8 +198,26 @@ export default function Review() {
             <div className={styles.wordHint}>Pronounce this word clearly</div>
           </div>
 
-          {/* Past Attempts History */}
-          <PastAttempts attemptHistory={attemptHistory} />
+          {/* Review Queue Panel */}
+          <div className={reviewStyles.queuePanel}>
+            <div className={reviewStyles.queueTitle}>Review Queue</div>
+            <div className={reviewStyles.wordList}>
+              {reviewQueue.map((word, index) => (
+                <div
+                  key={word}
+                  className={`${reviewStyles.wordItem} ${index === currentWordIndex ? reviewStyles.wordItemActive : ''}`}
+                  onClick={() => {
+                    setCurrentWordIndex(index);
+                    setCurrentWord(word);
+                    setResult(null);
+                    setShowNext(false);
+                  }}
+                >
+                  <div className={reviewStyles.wordItemText}>{word}</div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Microphone Card */}
           <div className={styles.micCard}>
@@ -229,44 +228,61 @@ export default function Review() {
                 onRecordStop={handleRecordStop}
                 disabled={isAnalyzing || showNext}
               />
-            </div>
-            
-            {/* Status Messages */}
-            {isRecording && (
-              <div className={styles.statusMessage}>
-                <span className={styles.statusIcon}>🎤</span>
-                <span>Recording...</span>
-              </div>
-            )}
+              
+              {/* Status Messages */}
+              {isRecording && (
+                <div className={styles.statusMessage}>
+                  <span className={styles.statusIcon}>🎤</span>
+                  <span>Recording...</span>
+                </div>
+              )}
 
-            {isAnalyzing && (
-              <div className={styles.statusMessage}>
-                <span className={styles.statusIcon}>⏳</span>
-                <span>Analyzing with AI...</span>
-              </div>
+              {isAnalyzing && (
+                <div className={styles.statusMessage}>
+                  <span className={styles.statusIcon}>⏳</span>
+                  <span>Analyzing...</span>
+                </div>
+              )}
+            </div>
+
+            {/* Next Button */}
+            {showNext && (
+              <button 
+                className={styles.nextButton}
+                onClick={handleNext}
+              >
+                {currentWordIndex < reviewQueue.length - 1 ? 'Next Word →' : 'Finish Review'}
+              </button>
             )}
           </div>
-
-          {/* Feedback Section */}
-          {result && (
-            <div className={styles.feedbackSection}>
-              <FeedbackCard result={result} attemptHistory={attemptHistory} />
-              <WhisperInterpretability result={result} expected={currentWord} />
-            </div>
-          )}
-
-          {/* Next Button */}
-          {showNext && (
-            <button 
-              className={styles.nextButton}
-              onClick={handleNext}
-            >
-              {currentWordIndex < reviewQueue.length - 1 ? 'Next Word →' : 'Finish Review'}
-            </button>
-          )}
         </div>
+
+        {/* Right Column - Feedback & Insights */}
+        <div className={styles.rightColumn}>
+          {/* Feedback Card */}
+          {result && (
+            <FeedbackCard 
+              result={result} 
+              attemptHistory={attemptHistory}
+            />
+          )}
+
+          {/* Insights - Whisper Interpretability */}
+          {result && (
+            <WhisperInterpretability result={result} expected={currentWord} />
+          )}
+
+          {/* Past Attempts History */}
+          <PastAttempts attemptHistory={attemptHistory} />
         </div>
       </div>
+
+      {/* Session Reflection Modal */}
+      <SessionReflectionModal
+        isOpen={showReflectionModal}
+        onClose={handleReflectionClose}
+        onContinue={handleContinuePracticing}
+      />
     </div>
   );
 }

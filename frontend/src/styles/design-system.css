@@ -4,43 +4,54 @@
  */
 
 :root {
-  /* Dark Copilot Color Palette */
-  --color-bg-primary: #0E0F12;
-  --color-bg-secondary: #1C1D21;
-  --color-bg-tertiary: #25262B;
-  --color-bg-hover: #2A2B30;
+  /* Professional Dark Theme - AI Dashboard */
+  --color-bg-primary: #0f0f0f;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #252525;
+  --color-bg-hover: #2a2a2a;
   
-  --color-border: #2A2B30;
-  --color-border-light: #1C1D21;
-  --color-border-dark: #3A3B40;
+  /* Glassmorphism Panel Background */
+  --panel-bg: rgba(255, 255, 255, 0.06);
+  --panel-bg-hover: rgba(255, 255, 255, 0.08);
+  --panel-border: rgba(255, 255, 255, 0.1);
   
-  --color-text-primary: #F3F3F3;
-  --color-text-secondary: #9A9A9A;
-  --color-text-tertiary: #6B6B6B;
-  --color-text-inverse: #0E0F12;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-light: rgba(255, 255, 255, 0.05);
+  --color-border-dark: rgba(255, 255, 255, 0.12);
+  --divider: rgba(255, 255, 255, 0.08);
   
-  /* AI Accent Colors */
-  --color-ai-primary: #4E8EF7;
-  --color-ai-primary-light: #6BA3FF;
-  --color-ai-primary-dark: #3A7AFE;
-  --color-ai-glow: rgba(78, 142, 247, 0.15);
+  --color-text-primary: #f3f3f3;
+  --color-text-secondary: #c5c5c5;
+  --color-text-tertiary: #9a9a9a;
+  --color-text-inverse: #0f0f0f;
+  
+  /* AI Accent Colors - Modern Blue */
+  --color-ai-primary: #4da3ff;
+  --color-ai-primary-light: #6bb3ff;
+  --color-ai-primary-dark: #3a8fef;
+  --color-ai-glow: rgba(77, 163, 255, 0.15);
+  
+  /* Accent Colors */
+  --accent-blue: #4da3ff;
+  --accent-green: #38d992;
+  --accent-red: #ff5c5c;
   
   /* Status Colors - Dark Mode Adjusted */
-  --color-success: #10B981;
-  --color-success-light: rgba(16, 185, 129, 0.2);
-  --color-success-dark: #059669;
+  --color-success: #38d992;
+  --color-success-light: rgba(56, 217, 146, 0.2);
+  --color-success-dark: #2bc47a;
   
   --color-warning: #F59E0B;
   --color-warning-light: rgba(245, 158, 11, 0.2);
   --color-warning-dark: #D97706;
   
-  --color-error: #EF4444;
-  --color-error-light: rgba(239, 68, 68, 0.2);
-  --color-error-dark: #DC2626;
+  --color-error: #ff5c5c;
+  --color-error-light: rgba(255, 92, 92, 0.2);
+  --color-error-dark: #ff3d3d;
   
-  --color-info: #4E8EF7;
-  --color-info-light: rgba(78, 142, 247, 0.2);
-  --color-info-dark: #3A7AFE;
+  --color-info: #4da3ff;
+  --color-info-light: rgba(77, 163, 255, 0.2);
+  --color-info-dark: #3a8fef;
   
   /* Typography */
   --font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -81,6 +92,7 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius: 16px;
   --radius-full: 9999px;
   
   /* Shadows - Dark Mode */
@@ -142,6 +154,22 @@ body {
 .card-ai {
   border-color: var(--color-ai-primary);
   box-shadow: var(--shadow-ai);
+}
+
+/* Glassmorphism Panel */
+.panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+
+.panel:hover {
+  background: var(--panel-bg-hover);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Dashboard Container */

@@ -5,6 +5,7 @@ import FeedbackCard from '../components/FeedbackCard';
 import PastAttempts from '../components/PastAttempts';
 import WhisperInterpretability from '../components/WhisperInterpretability';
 import SessionSummary from '../components/SessionSummary';
+import SessionReflectionModal from '../components/SessionReflectionModal';
 import styles from '../styles/Practice.module.css';
 import { evaluatePronunciation } from '../api';
 import { WORD_LIST, getNextWord } from '../utils/words';
@@ -33,6 +34,7 @@ export default function Practice() {
   const [attemptCount, setAttemptCount] = useState(0);
   const [sessionWords, setSessionWords] = useState([]);
   const [showSessionSummary, setShowSessionSummary] = useState(false);
+  const [showReflectionModal, setShowReflectionModal] = useState(false);
 
   // Load word stats and history when word changes
   useEffect(() => {
@@ -108,77 +110,111 @@ export default function Practice() {
 
   // Go back to home
   const handleBackToHome = () => {
+    // Show reflection modal if user has made attempts
+    if (attemptCount > 0) {
+      setShowReflectionModal(true);
+    } else {
+      router.push('/');
+    }
+  };
+
+  // Handle reflection modal close
+  const handleReflectionClose = () => {
+    setShowReflectionModal(false);
     router.push('/');
+  };
+
+  // Handle continue practicing from reflection
+  const handleContinuePracticing = () => {
+    setShowReflectionModal(false);
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.dashboard}>
-        {/* Header */}
-        <div className={styles.header}>
-          <button 
-            className={styles.backButton}
-            onClick={handleBackToHome}
-          >
-            ← Home
-          </button>
-        </div>
-
-        {/* Word Card - Full Width */}
-        <div className={styles.wordCard}>
-          <div className={styles.wordTitle}>Current Word</div>
-          <div className={styles.wordText}>{currentWord}</div>
-          <div className={styles.wordHint}>Pronounce this word clearly</div>
-        </div>
-
-        {/* Microphone Button - Centered, Floating */}
-        <div className={styles.micContainer}>
-          <MicButton
-            isRecording={isRecording}
-            onRecordStart={handleRecordStart}
-            onRecordStop={handleRecordStop}
-            disabled={isAnalyzing || showNext}
-          />
-          
-          {/* Status Messages */}
-          {isRecording && (
-            <div className={styles.statusMessage}>
-              <span className={styles.statusIcon}>🎤</span>
-              <span>Recording...</span>
-            </div>
-          )}
-
-          {isAnalyzing && (
-            <div className={styles.statusMessage}>
-              <span className={styles.statusIcon}>⏳</span>
-              <span>Analyzing...</span>
-            </div>
-          )}
-        </div>
-
-        {/* Feedback Card - Appears directly below mic after speaking */}
-        {result && (
-          <FeedbackCard result={result} attemptHistory={attemptHistory} />
-        )}
-
-        {/* Insights - Whisper Interpretability */}
-        {result && (
-          <WhisperInterpretability result={result} expected={currentWord} />
-        )}
-
-        {/* Past Attempts History - Full Width */}
-        <PastAttempts attemptHistory={attemptHistory} />
-
-        {/* Next Button - Full Width */}
-        {showNext && (
-          <button 
-            className={styles.nextButton}
-            onClick={handleNext}
-          >
-            Next Word →
-          </button>
-        )}
+      {/* Header */}
+      <div className={styles.header}>
+        <button 
+          className={styles.backButton}
+          onClick={handleBackToHome}
+        >
+          ← Home
+        </button>
       </div>
+
+      <div className={styles.dashboard}>
+        {/* Left Column - Microphone & Controls */}
+        <div className={styles.leftColumn}>
+          {/* Word Card */}
+          <div className={styles.wordCard}>
+            <div className={styles.wordTitle}>Current Word</div>
+            <div className={styles.wordText}>{currentWord}</div>
+            <div className={styles.wordHint}>Pronounce this word clearly</div>
+          </div>
+
+          {/* Microphone Card */}
+          <div className={styles.micCard}>
+            <div className={styles.micContainer}>
+              <MicButton
+                isRecording={isRecording}
+                onRecordStart={handleRecordStart}
+                onRecordStop={handleRecordStop}
+                disabled={isAnalyzing || showNext}
+              />
+              
+              {/* Status Messages */}
+              {isRecording && (
+                <div className={styles.statusMessage}>
+                  <span className={styles.statusIcon}>🎤</span>
+                  <span>Recording...</span>
+                </div>
+              )}
+
+              {isAnalyzing && (
+                <div className={styles.statusMessage}>
+                  <span className={styles.statusIcon}>⏳</span>
+                  <span>Analyzing...</span>
+                </div>
+              )}
+            </div>
+
+            {/* Next Button */}
+            {showNext && (
+              <button 
+                className={styles.nextButton}
+                onClick={handleNext}
+              >
+                Next Word →
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column - Feedback & Insights */}
+        <div className={styles.rightColumn}>
+          {/* Feedback Card */}
+          {result && (
+            <FeedbackCard 
+              result={result} 
+              attemptHistory={attemptHistory}
+            />
+          )}
+
+          {/* Insights - Whisper Interpretability */}
+          {result && (
+            <WhisperInterpretability result={result} expected={currentWord} />
+          )}
+
+          {/* Past Attempts History */}
+          <PastAttempts attemptHistory={attemptHistory} />
+        </div>
+      </div>
+
+      {/* Session Reflection Modal */}
+      <SessionReflectionModal
+        isOpen={showReflectionModal}
+        onClose={handleReflectionClose}
+        onContinue={handleContinuePracticing}
+      />
     </div>
   );
 }

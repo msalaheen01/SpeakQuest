@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from '../styles/WhisperInterpretability.module.css';
+import PunctuationTooltip from './PunctuationTooltip';
 
 /**
  * Whisper Interpretability Panel
@@ -76,22 +77,91 @@ export default function WhisperInterpretability({ result, expected }) {
       }
     });
     
-    // Check for capitalization differences
-    const firstChar = transcription.charAt(0);
-    const expectedFirstChar = expected.charAt(0);
-    if (firstChar && firstChar === firstChar.toUpperCase() && 
-        expectedFirstChar && expectedFirstChar !== expectedFirstChar.toUpperCase()) {
+    return result;
+  };
+  
+  const punctuationExplanations = analyzePunctuation();
+  
+  // Analyze formatting (capitalization and hyphens)
+  const analyzeFormatting = () => {
+    const result = [];
+    const transText = transcription.trim();
+    const expectedText = expected.trim();
+    
+    // Remove punctuation for capitalization analysis
+    const transForCap = transText.replace(/[.,!?;:]/g, '');
+    const expectedForCap = expectedText.replace(/[.,!?;:]/g, '');
+    
+    // Check for ALL CAPS (entire transcription is uppercase)
+    if (transForCap === transForCap.toUpperCase() && 
+        expectedForCap !== expectedForCap.toUpperCase() &&
+        transForCap.length > 0) {
       result.push({
-        type: 'capitalization',
-        text: "Whisper capitalized the first letter, suggesting it thought this was a proper noun or the beginning of a sentence.",
-        count: 1
+        type: 'all-caps',
+        text: "All caps indicates Whisper detected strong emphasis or loudness in your pronunciation."
       });
+      // Don't check other capitalization patterns if all caps, but still check for hyphens
+    } else {
+    
+      // Check for initial capitalization
+      const transFirstChar = transForCap.charAt(0);
+      const expectedFirstChar = expectedForCap.charAt(0);
+      if (transFirstChar && transFirstChar === transFirstChar.toUpperCase() && 
+          expectedFirstChar && expectedFirstChar !== expectedFirstChar.toUpperCase()) {
+        result.push({
+          type: 'initial-cap',
+          text: "Whisper capitalized this word because it interpreted your pronunciation as the beginning of a sentence."
+        });
+      }
+      
+      // Check for unexpected capitalization in middle of word (camelCase or mixed case)
+      const transWithoutFirst = transForCap.slice(1);
+      const expectedWithoutFirst = expectedForCap.slice(1);
+      if (transWithoutFirst && /[A-Z]/.test(transWithoutFirst) && 
+          expectedWithoutFirst && expectedWithoutFirst === expectedWithoutFirst.toLowerCase()) {
+        result.push({
+          type: 'unexpected-cap',
+          text: "Whisper treated this as a proper noun or emphasized word, capitalizing letters in the middle."
+        });
+      }
+    }
+    
+    // Check for hyphens
+    if (/-/.test(transcription)) {
+      const transWithoutPunct = transText.replace(/[.,!?;:]/g, '');
+      
+      // Check for repeated consonants with hyphens (e.g., "g-g-green", "b-b-blue")
+      if (/([a-zA-Z])-\1/i.test(transcription)) {
+        result.push({
+          type: 'hyphen-repeat',
+          text: "Repeated letters with a hyphen indicate the model heard an unstable or repeated consonant sound, like a stutter or hesitation."
+        });
+      }
+      // Check for internal breaks within a word (e.g., "gree-en", "blu-e")
+      else if (/-/.test(transWithoutPunct.replace(/\s/g, ''))) {
+        // Check if hyphen is inside a word (not at word boundaries)
+        const wordsWithHyphens = transWithoutPunct.split(/\s+/).filter(word => /-/.test(word));
+        if (wordsWithHyphens.length > 0) {
+          result.push({
+            type: 'hyphen-internal',
+            text: "The hyphen suggests Whisper detected a pause or break inside the word, possibly due to unclear pronunciation or a natural speech pause."
+          });
+        }
+      }
+      
+      // General hyphen explanation if not already covered
+      if (result.filter(r => r.type.startsWith('hyphen')).length === 0) {
+        result.push({
+          type: 'hyphen-general',
+          text: "Hyphens often appear when Whisper is uncertain about word segmentation and tries to break the audio into smaller parts."
+        });
+      }
     }
     
     return result;
   };
   
-  const punctuationExplanations = analyzePunctuation();
+  const formattingExplanations = analyzeFormatting();
   
   // Format metadata for display
   const formatMetadata = () => {
@@ -167,7 +237,20 @@ export default function WhisperInterpretability({ result, expected }) {
             
             <div className={styles.analysisItem}>
               <span className={styles.analysisLabel}>Whisper heard:</span>
-              <span className={styles.analysisValue}>"{transcription}"</span>
+              <span className={styles.analysisValue}>
+                "
+                {transcription.split('').map((char, index) => {
+                  if (/[.,!?\-]/.test(char)) {
+                    return (
+                      <PunctuationTooltip key={index} punctuation={char}>
+                        <span>{char}</span>
+                      </PunctuationTooltip>
+                    );
+                  }
+                  return <span key={index}>{char}</span>;
+                })}
+                "
+              </span>
             </div>
             
             <div className={styles.analysisItem}>
@@ -201,6 +284,20 @@ export default function WhisperInterpretability({ result, expected }) {
                   {punctuationExplanations.map((explanation, index) => (
                     <div key={index} className={styles.punctuationItem}>
                       <span className={styles.punctuationText}>{explanation.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {/* Formatting Interpretation */}
+            {formattingExplanations.length > 0 && (
+              <div className={styles.formattingSection}>
+                <h4 className={styles.formattingTitle}>Formatting Interpretation</h4>
+                <div className={styles.formattingList}>
+                  {formattingExplanations.map((explanation, index) => (
+                    <div key={index} className={styles.formattingItem}>
+                      <span className={styles.formattingText}>{explanation.text}</span>
                     </div>
                   ))}
                 </div>

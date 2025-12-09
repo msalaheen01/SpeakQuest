@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import { getReviewQueue } from '../utils/storage';
+import FramingPanel from '../components/FramingPanel';
+import MetaFeedbackOverview from '../components/MetaFeedbackOverview';
 import PracticeFocus from '../components/PracticeFocus';
 
 /**
@@ -34,12 +36,9 @@ export default function Home() {
           <p className={styles.subtitle}>
             AI-powered pronunciation practice with real-time feedback
           </p>
-          <div className={styles.aiBadge}>
-            <span>🤖</span>
-            <span>AI Co-Pilot</span>
-          </div>
         </div>
         
+        {/* Primary Action Buttons - Directly under title */}
         <div className={styles.actions}>
           <button 
             className={`${styles.actionButton} ${styles.actionButtonPrimary}`}
@@ -58,6 +57,12 @@ export default function Home() {
             </button>
           )}
         </div>
+        
+        {/* Framing Panel */}
+        <FramingPanel />
+        
+        {/* Meta Feedback Overview */}
+        <MetaFeedbackOverview />
         
         {/* Practice Focus Suggestions */}
         <PracticeFocus limit={3} />

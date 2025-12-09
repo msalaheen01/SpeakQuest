@@ -6,6 +6,7 @@ import { generateInsights } from '../utils/insights';
 /**
  * FeedbackCard Component
  * Displays rich pronunciation feedback with grades, scores, and details
+ * Adapts based on coaching mode
  * 
  * @param {object} result - Evaluation result with:
  *   - transcription: string
@@ -16,6 +17,7 @@ import { generateInsights } from '../utils/insights';
  *   - topAlternative: string|null
  *   - feedback: string
  *   - raw: object|null (for advanced details)
+ * @param {array} attemptHistory - History of past attempts
  */
 export default function FeedbackCard({ result, attemptHistory = [] }) {
   const [showDetails, setShowDetails] = useState(false);
