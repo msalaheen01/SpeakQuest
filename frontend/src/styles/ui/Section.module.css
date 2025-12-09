@@ -1,0 +1,20 @@
+.section {
+  width: 100%;
+}
+
+.section.small {
+  margin-bottom: 32px;
+}
+
+.section.default {
+  margin-bottom: 48px;
+}
+
+.section.large {
+  margin-bottom: 64px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+

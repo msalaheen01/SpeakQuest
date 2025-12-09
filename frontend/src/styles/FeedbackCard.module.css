@@ -1,48 +1,45 @@
 /**
- * Feedback Card - Professional Dashboard Style
+ * Feedback Card - Editorial Style
  */
 
 .feedbackCard {
   width: 100%;
-  padding: var(--space-8);
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-base);
+  padding: 32px;
 }
 
-.feedbackCard:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border-dark);
+.cardHeader {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .mainResult {
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-6);
-  border-bottom: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--divider);
 }
 
 .transcriptionSection,
 .expectedSection {
-  margin-bottom: var(--space-4);
-}
-
-.label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-2);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .value {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-semibold);
+  font-size: 20px;
+  font-weight: 600;
   color: var(--color-text-primary);
   word-break: break-word;
-  line-height: var(--line-height-tight);
+  line-height: 1.4;
 }
 
 .gradeBadge {
@@ -64,17 +61,17 @@
 }
 
 .scoresSection {
-  margin: var(--space-6) 0;
-  padding-top: var(--space-6);
-  border-top: 1px solid var(--color-border-light);
+  padding-top: 24px;
+  border-top: 1px solid var(--divider);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .scoreItem {
-  margin-bottom: var(--space-5);
-}
-
-.scoreItem:last-child {
-  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .scoreLabel {
@@ -112,9 +109,9 @@
 .alternativeSection {
   margin: var(--space-4) 0;
   padding: var(--space-4);
-  background: var(--color-bg-secondary);
+  background: rgba(140, 169, 255, 0.08);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-ai-primary);
+  border-left: 3px solid var(--color-blue-strong);
 }
 
 .alternativeValue {
@@ -135,11 +132,10 @@
 }
 
 .insightsSection {
-  margin-top: var(--space-5);
-  padding: var(--space-5);
-  background: linear-gradient(135deg, rgba(58, 122, 254, 0.05) 0%, rgba(58, 122, 254, 0.1) 100%);
-  border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-ai-primary);
+  padding: 20px;
+  background: rgba(140, 169, 255, 0.08);
+  border-radius: 8px;
+  border-left: 3px solid var(--color-blue-strong);
 }
 
 .insightsTitle {

@@ -13,9 +13,9 @@
   width: 100px;
   height: 100px;
   border-radius: var(--radius-full);
-  border: 2px solid var(--color-border);
-  background: var(--color-bg-tertiary);
-  color: var(--color-ai-primary);
+  border: 2px solid var(--color-blue-soft);
+  background: var(--color-bg-secondary);
+  color: var(--color-blue-strong);
   font-size: 2.5rem;
   cursor: pointer;
   transition: all var(--transition-base);
@@ -34,22 +34,22 @@
   position: absolute;
   inset: -4px;
   border-radius: var(--radius-full);
-  border: 2px solid var(--color-border-dark);
+  border: 2px solid var(--color-blue-soft);
   opacity: 0.3;
   transition: opacity var(--transition-base);
 }
 
 .micButton:hover:not(.disabled):not(.recording)::before {
   opacity: 0.5;
-  border-color: var(--color-ai-primary);
+  border-color: var(--color-blue-strong);
 }
 
 .micButton:hover:not(.disabled):not(.recording) {
-  border-color: var(--color-ai-primary);
-  background: var(--color-ai-glow);
+  border-color: var(--color-blue-strong);
+  background: rgba(140, 169, 255, 0.1);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
-  color: var(--color-ai-primary-light);
+  color: var(--color-blue-strong);
 }
 
 .micButton:active:not(.disabled) {

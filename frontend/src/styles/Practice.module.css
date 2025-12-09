@@ -1,42 +1,32 @@
 /**
- * Practice Screen - Centered Dashboard Layout
+ * Practice Screen - Editorial Layout
  */
 
-.container {
+.page {
   min-height: 100vh;
-  background: var(--color-bg-primary);
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
+  background: linear-gradient(135deg, #FFF8DE 0%, #FFF2C6 50%, #FFEECC 100%);
+  background-attachment: fixed;
+  padding: 48px 0;
 }
 
 .dashboard {
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-6);
-  padding: 0 var(--space-6);
+  gap: 48px;
 }
 
 @media (min-width: 1024px) {
   .dashboard {
     grid-template-columns: 400px 1fr;
-    gap: var(--space-8);
+    gap: 64px;
   }
 }
 
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-6);
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  padding: 0 var(--space-6);
+  margin-bottom: 48px;
 }
 
 .backButton {
@@ -64,72 +54,51 @@
 .leftColumn {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: 24px;
 }
 
 /* Word Card */
 .wordCard {
-  background: var(--panel-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--panel-border);
-  border-radius: var(--radius);
-  padding: var(--space-8);
+  padding: 32px;
   text-align: center;
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-base);
 }
 
-.wordCard:hover {
-  background: var(--panel-bg-hover);
-  border-color: rgba(255, 255, 255, 0.15);
+.cardHeader {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--divider);
 }
 
-.wordTitle {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: var(--space-4);
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .wordText {
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-bold);
+  font-size: 48px;
+  font-weight: 700;
   color: var(--color-text-primary);
-  margin: var(--space-6) 0;
+  line-height: 1.2;
+  margin: 0;
   letter-spacing: -0.03em;
-  line-height: var(--line-height-tight);
 }
 
 .wordHint {
-  font-size: var(--font-size-sm);
+  font-size: 14px;
   color: var(--color-text-tertiary);
-  margin-top: var(--space-4);
+  font-weight: 400;
+  line-height: 1.5;
 }
 
-/* Microphone Card - Left Column */
-.micCard {
-  background: var(--panel-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--panel-border);
-  border-radius: var(--radius);
-  padding: var(--space-8);
+/* Microphone Section - Inside Card */
+.micSection {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-6);
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-base);
-  min-height: 300px;
-}
-
-.micCard:hover {
-  background: var(--panel-bg-hover);
-  border-color: rgba(255, 255, 255, 0.15);
+  gap: 24px;
+  padding-top: 16px;
 }
 
 .micContainer {
@@ -137,41 +106,42 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
+  gap: 16px;
 }
 
 .statusMessage {
-  font-size: var(--font-size-sm);
+  font-size: 14px;
   color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .statusIcon {
-  font-size: var(--font-size-base);
+  font-size: 16px;
 }
 
 /* Next Button */
 .nextButton {
-  width: 100%;
-  padding: var(--space-4) var(--space-6);
-  background: var(--color-ai-primary);
+  min-width: 200px;
+  padding: 16px 32px;
+  background: var(--color-blue-strong);
   color: var(--color-text-inverse);
   border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-base);
+  box-shadow: 0 2px 4px rgba(140, 169, 255, 0.2);
 }
 
 .nextButton:hover:not(:disabled) {
   background: var(--color-ai-primary-dark);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 4px 8px rgba(140, 169, 255, 0.3);
 }
 
 .nextButton:disabled {
@@ -183,16 +153,25 @@
 .rightColumn {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: 24px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 1023px) {
   .wordText {
-    font-size: var(--font-size-3xl);
+    font-size: 36px;
   }
   
-  .micCard {
-    min-height: 250px;
+  .cardBody {
+    gap: 20px;
+  }
+  
+  .micSection {
+    padding-top: 12px;
+    gap: 20px;
+  }
+  
+  .dashboard {
+    gap: 32px;
   }
 }

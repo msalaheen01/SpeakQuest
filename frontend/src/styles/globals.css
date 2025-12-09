@@ -18,8 +18,10 @@ body {
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--color-bg-primary);
+  background: linear-gradient(135deg, #FFF8DE 0%, #FFF2C6 50%, #FFEECC 100%);
+  background-attachment: fixed;
   min-height: 100vh;
+  color: var(--color-text-primary);
 }
 
 body {

@@ -1,0 +1,24 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns, 2), 1fr);
+  gap: 24px;
+}
+
+.grid.gapsmall {
+  gap: 16px;
+}
+
+.grid.gapdefault {
+  gap: 24px;
+}
+
+.grid.gaplarge {
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+

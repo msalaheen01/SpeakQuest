@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import styles from '../styles/Home.module.css';
+import Container from '../components/ui/Container';
+import Section from '../components/ui/Section';
+import { Title, Subtitle, SectionHeader } from '../components/ui/Typography';
 import { getReviewQueue } from '../utils/storage';
 import FramingPanel from '../components/FramingPanel';
 import MetaFeedbackOverview from '../components/MetaFeedbackOverview';
 import PracticeFocus from '../components/PracticeFocus';
+import styles from '../styles/Home.module.css';
 
 /**
  * Home Screen - Professional Dashboard
@@ -29,44 +32,52 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>SpeakBetter</h1>
-          <p className={styles.subtitle}>
-            AI-powered pronunciation practice with real-time feedback
-          </p>
-        </div>
-        
-        {/* Primary Action Buttons - Directly under title */}
-        <div className={styles.actions}>
-          <button 
-            className={`${styles.actionButton} ${styles.actionButtonPrimary}`}
-            onClick={handleStartPractice}
-          >
-            Start Practice
-          </button>
-          
-          {reviewCount > 0 && (
+    <div className={styles.page}>
+      <Container size="default">
+        <Section spacing="large">
+          <div className={styles.header}>
+            <Title>SpeakBetter</Title>
+            <Subtitle>AI-powered pronunciation practice with real-time feedback</Subtitle>
+          </div>
+        </Section>
+
+        <Section spacing="default">
+          {/* Primary Action Buttons - Directly under title */}
+          <div className={styles.actions}>
             <button 
-              className={`${styles.actionButton} ${styles.actionButtonSecondary}`}
-              onClick={handleReviewMistakes}
+              className={`${styles.actionButton} ${styles.actionButtonPrimary}`}
+              onClick={handleStartPractice}
             >
-              Review Mistakes
-              <span className={styles.reviewBadge}>{reviewCount}</span>
+              Start Practice
             </button>
-          )}
-        </div>
+            
+            {reviewCount > 0 && (
+              <button 
+                className={`${styles.actionButton} ${styles.actionButtonSecondary}`}
+                onClick={handleReviewMistakes}
+              >
+                Review Mistakes
+                <span className={styles.reviewBadge}>{reviewCount}</span>
+              </button>
+            )}
+          </div>
+        </Section>
         
-        {/* Framing Panel */}
-        <FramingPanel />
+        <Section spacing="large">
+          {/* Framing Panel */}
+          <FramingPanel />
+        </Section>
         
-        {/* Meta Feedback Overview */}
-        <MetaFeedbackOverview />
+        <Section spacing="large">
+          {/* Meta Feedback Overview */}
+          <MetaFeedbackOverview />
+        </Section>
         
-        {/* Practice Focus Suggestions */}
-        <PracticeFocus limit={3} />
-      </div>
+        <Section spacing="large">
+          {/* Practice Focus Suggestions */}
+          <PracticeFocus limit={3} />
+        </Section>
+      </Container>
     </div>
   );
 }

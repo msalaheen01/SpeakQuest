@@ -1,35 +1,36 @@
 /**
- * Past Attempts Card - Professional Dashboard Style
+ * Past Attempts Card - Editorial Style
  */
 
 .pastAttemptsContainer {
   width: 100%;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-secondary);
+  padding: 0;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: all var(--transition-base);
 }
 
-.pastAttemptsContainer:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border-dark);
+.cardHeader {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--divider);
+}
+
+.cardBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: slideDown var(--transition-base);
 }
 
 .toggleButton {
   width: 100%;
-  padding: var(--space-4) var(--space-5);
-  background: var(--color-bg-secondary);
+  padding: 16px 24px;
+  background: transparent;
   border: none;
-  border-bottom: 1px solid var(--color-border);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  gap: 12px;
   transition: all var(--transition-base);
 }
 
@@ -38,7 +39,7 @@
 }
 
 .toggleIcon {
-  font-size: var(--font-size-xs);
+  font-size: 12px;
   color: var(--color-text-secondary);
   transition: transform var(--transition-base);
 }
@@ -50,48 +51,38 @@
 .toggleLabel {
   flex: 1;
   text-align: left;
+  margin: 0;
 }
 
 .toggleCount {
   color: var(--color-text-secondary);
-  font-weight: var(--font-weight-normal);
+  font-weight: 400;
   background: var(--color-bg-tertiary);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-}
-
-.content {
-  padding: var(--space-8);
-  animation: slideDown var(--transition-base);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
 }
 
 .summarySection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-6);
-  border-bottom: 1px solid var(--color-border-light);
+  gap: 16px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--divider);
 }
 
 .summaryItem {
   text-align: center;
-}
-
-.summaryLabel {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-2);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .summaryValue {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
+  font-size: 28px;
+  font-weight: 700;
   color: var(--color-text-primary);
-  line-height: var(--line-height-tight);
+  line-height: 1.2;
 }
 
 .analyticsSection {
@@ -135,9 +126,9 @@
 .trendSection {
   margin-bottom: var(--space-6);
   padding: var(--space-4);
-  background: var(--color-bg-secondary);
+  background: rgba(140, 169, 255, 0.08);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-ai-primary);
+  border-left: 3px solid var(--color-blue-strong);
 }
 
 .trendBadge {
@@ -176,29 +167,31 @@
 }
 
 .attemptsList {
-  margin-bottom: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .attemptsHeader {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-4);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.attemptsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .attemptItem {
-  padding: var(--space-4);
-  margin-bottom: var(--space-3);
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--color-bg-tertiary);
+  border-radius: 8px;
   border-left: 3px solid var(--color-border);
   transition: all var(--transition-base);
 }
 
 .attemptItem:hover {
-  border-left-color: var(--color-ai-primary);
+  border-left-color: var(--color-blue-strong);
   background: var(--color-bg-hover);
 }
 
@@ -230,7 +223,7 @@
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
   padding: var(--space-1) var(--space-2);
-  background: var(--color-bg-primary);
+  background: #FFF8DE;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border-light);
 }

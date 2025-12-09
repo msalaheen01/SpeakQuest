@@ -4,7 +4,7 @@
 
 .interpretabilityContainer {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border: 2px solid #000000;
   border-radius: var(--radius-lg);
   background: var(--color-bg-secondary);
   overflow: hidden;
@@ -14,7 +14,7 @@
 
 .interpretabilityContainer:hover {
   box-shadow: var(--shadow-md);
-  border-color: var(--color-ai-primary);
+  border-color: #000000;
 }
 
 .toggleButton {
@@ -35,7 +35,7 @@
 
 .toggleButton:hover {
   background: var(--color-bg-hover);
-  color: var(--color-ai-primary);
+  color: var(--color-blue-strong);
 }
 
 .toggleIcon {

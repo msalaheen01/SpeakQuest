@@ -6,7 +6,7 @@
   width: 100%;
   padding: var(--space-8);
   background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  border: 2px solid #000000;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-base);
@@ -14,7 +14,7 @@
 
 .practiceFocusContainer:hover {
   box-shadow: var(--shadow-md);
-  border-color: var(--color-ai-primary);
+  border-color: #000000;
 }
 
 .header {
@@ -50,13 +50,13 @@
   padding: var(--space-5);
   background: var(--color-bg-tertiary);
   border-radius: var(--radius-md);
-  border-left: 3px solid var(--color-ai-primary);
+  border-left: 3px solid var(--color-blue-strong);
   transition: all var(--transition-base);
 }
 
 .suggestionItem:hover {
   background: var(--color-bg-hover);
-  border-left-color: var(--color-ai-primary-light);
+  border-left-color: var(--color-blue-soft);
   transform: translateX(2px);
 }
 
@@ -76,11 +76,11 @@
 .suggestionBadge {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-ai-primary);
-  background: var(--color-ai-glow);
+  color: var(--color-blue-strong);
+  background: rgba(140, 169, 255, 0.15);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  border: 1px solid rgba(58, 122, 254, 0.2);
+  border: 1px solid rgba(140, 169, 255, 0.3);
 }
 
 .suggestionReason {
@@ -101,7 +101,7 @@
 
 .practiceButton {
   padding: var(--space-2) var(--space-4);
-  background: var(--color-ai-primary);
+  background: var(--color-blue-strong);
   color: var(--color-text-inverse);
   border: none;
   border-radius: var(--radius-md);
@@ -109,10 +109,11 @@
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all var(--transition-base);
+  box-shadow: 0 2px 4px rgba(140, 169, 255, 0.2);
 }
 
 .practiceButton:hover {
   background: var(--color-ai-primary-dark);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 8px rgba(140, 169, 255, 0.3);
 }

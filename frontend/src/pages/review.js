@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Container from '../components/ui/Container';
+import Card from '../components/ui/Card';
+import { Label } from '../components/ui/Typography';
 import MicButton from '../components/MicButton';
 import FeedbackCard from '../components/FeedbackCard';
 import PastAttempts from '../components/PastAttempts';
@@ -143,7 +146,49 @@ export default function Review() {
   // If no words in review queue
   if (reviewQueue.length === 0) {
     return (
-      <div className={styles.container}>
+      <div className={styles.page}>
+        <Container size="default">
+          <div className={styles.header}>
+            <button 
+              className={styles.backButton}
+              onClick={handleBackToHome}
+            >
+              ← Home
+            </button>
+          </div>
+          <div className={styles.dashboard}>
+            <div className={styles.leftColumn}>
+              <Card className={styles.wordCard}>
+                <div className={styles.cardHeader}>
+                  <Label>REVIEW MODE</Label>
+                </div>
+                <div className={styles.cardBody}>
+                  <div className={styles.wordText} style={{ fontSize: '24px', margin: '16px 0' }}>
+                    No words need review
+                  </div>
+                  <p style={{ fontSize: '16px', color: 'var(--color-text-secondary)', marginTop: '12px', lineHeight: '1.5' }}>
+                    Keep practicing to identify words that need extra attention.
+                  </p>
+                  <button 
+                    className={styles.nextButton}
+                    onClick={handleBackToHome}
+                    style={{ marginTop: '32px', maxWidth: '300px' }}
+                  >
+                    Back to Home
+                  </button>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.page}>
+      <Container size="default">
+        {/* Header */}
         <div className={styles.header}>
           <button 
             className={styles.backButton}
@@ -152,137 +197,109 @@ export default function Review() {
             ← Home
           </button>
         </div>
+
         <div className={styles.dashboard}>
+          {/* Left Column - Microphone & Controls */}
           <div className={styles.leftColumn}>
-            <div className={styles.wordCard}>
-              <div className={styles.wordTitle}>Review Mode</div>
-              <div className={styles.wordText} style={{ fontSize: 'var(--font-size-2xl)', margin: 'var(--space-6) 0' }}>
-                No words need review
+            {/* Word Card */}
+            <Card className={styles.wordCard}>
+              <div className={styles.cardHeader}>
+                <Label>CURRENT WORD</Label>
               </div>
-              <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', marginTop: 'var(--space-4)' }}>
-                Keep practicing to identify words that need extra attention.
-              </p>
-              <button 
-                className={styles.nextButton}
-                onClick={handleBackToHome}
-                style={{ marginTop: 'var(--space-8)', maxWidth: '300px' }}
-              >
-                Back to Home
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+              <div className={styles.cardBody}>
+                <div className={styles.wordText}>{currentWord}</div>
+                <div className={styles.wordHint}>Pronounce this word clearly</div>
+                
+                {/* Microphone Section - Inside Card */}
+                <div className={styles.micSection}>
+                  <div className={styles.micContainer}>
+                    <MicButton
+                      isRecording={isRecording}
+                      onRecordStart={handleRecordStart}
+                      onRecordStop={handleRecordStop}
+                      disabled={isAnalyzing || showNext}
+                    />
+                    
+                    {/* Status Messages */}
+                    {isRecording && (
+                      <div className={styles.statusMessage}>
+                        <span className={styles.statusIcon}>🎤</span>
+                        <span>Recording...</span>
+                      </div>
+                    )}
 
-  return (
-    <div className={styles.container}>
-      {/* Header */}
-      <div className={styles.header}>
-        <button 
-          className={styles.backButton}
-          onClick={handleBackToHome}
-        >
-          ← Home
-        </button>
-      </div>
+                    {isAnalyzing && (
+                      <div className={styles.statusMessage}>
+                        <span className={styles.statusIcon}>⏳</span>
+                        <span>Analyzing...</span>
+                      </div>
+                    )}
+                  </div>
 
-      <div className={styles.dashboard}>
-        {/* Left Column - Microphone & Controls */}
-        <div className={styles.leftColumn}>
-          {/* Word Card */}
-          <div className={styles.wordCard}>
-            <div className={styles.wordTitle}>Current Word</div>
-            <div className={styles.wordText}>{currentWord}</div>
-            <div className={styles.wordHint}>Pronounce this word clearly</div>
-          </div>
-
-          {/* Review Queue Panel */}
-          <div className={reviewStyles.queuePanel}>
-            <div className={reviewStyles.queueTitle}>Review Queue</div>
-            <div className={reviewStyles.wordList}>
-              {reviewQueue.map((word, index) => (
-                <div
-                  key={word}
-                  className={`${reviewStyles.wordItem} ${index === currentWordIndex ? reviewStyles.wordItemActive : ''}`}
-                  onClick={() => {
-                    setCurrentWordIndex(index);
-                    setCurrentWord(word);
-                    setResult(null);
-                    setShowNext(false);
-                  }}
-                >
-                  <div className={reviewStyles.wordItemText}>{word}</div>
+                  {/* Next Button */}
+                  {showNext && (
+                    <button 
+                      className={styles.nextButton}
+                      onClick={handleNext}
+                    >
+                      {currentWordIndex < reviewQueue.length - 1 ? 'Next Word →' : 'Finish Review'}
+                    </button>
+                  )}
                 </div>
-              ))}
-            </div>
+              </div>
+            </Card>
+
+            {/* Review Queue Panel */}
+            <Card className={reviewStyles.queuePanel}>
+              <div className={reviewStyles.cardHeader}>
+                <Label>REVIEW QUEUE</Label>
+              </div>
+              <div className={reviewStyles.wordList}>
+                {reviewQueue.map((word, index) => (
+                  <div
+                    key={word}
+                    className={`${reviewStyles.wordItem} ${index === currentWordIndex ? reviewStyles.wordItemActive : ''}`}
+                    onClick={() => {
+                      setCurrentWordIndex(index);
+                      setCurrentWord(word);
+                      setResult(null);
+                      setShowNext(false);
+                    }}
+                  >
+                    <div className={reviewStyles.wordItemText}>{word}</div>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </div>
 
-          {/* Microphone Card */}
-          <div className={styles.micCard}>
-            <div className={styles.micContainer}>
-              <MicButton
-                isRecording={isRecording}
-                onRecordStart={handleRecordStart}
-                onRecordStop={handleRecordStop}
-                disabled={isAnalyzing || showNext}
+          {/* Right Column - Feedback & Insights */}
+          <div className={styles.rightColumn}>
+            {/* Feedback Card */}
+            {result && (
+              <FeedbackCard 
+                result={result} 
+                attemptHistory={attemptHistory}
               />
-              
-              {/* Status Messages */}
-              {isRecording && (
-                <div className={styles.statusMessage}>
-                  <span className={styles.statusIcon}>🎤</span>
-                  <span>Recording...</span>
-                </div>
-              )}
-
-              {isAnalyzing && (
-                <div className={styles.statusMessage}>
-                  <span className={styles.statusIcon}>⏳</span>
-                  <span>Analyzing...</span>
-                </div>
-              )}
-            </div>
-
-            {/* Next Button */}
-            {showNext && (
-              <button 
-                className={styles.nextButton}
-                onClick={handleNext}
-              >
-                {currentWordIndex < reviewQueue.length - 1 ? 'Next Word →' : 'Finish Review'}
-              </button>
             )}
+
+            {/* Insights - Whisper Interpretability */}
+            {result && (
+              <WhisperInterpretability result={result} expected={currentWord} />
+            )}
+
+            {/* Past Attempts History */}
+            <PastAttempts attemptHistory={attemptHistory} />
           </div>
         </div>
 
-        {/* Right Column - Feedback & Insights */}
-        <div className={styles.rightColumn}>
-          {/* Feedback Card */}
-          {result && (
-            <FeedbackCard 
-              result={result} 
-              attemptHistory={attemptHistory}
-            />
-          )}
-
-          {/* Insights - Whisper Interpretability */}
-          {result && (
-            <WhisperInterpretability result={result} expected={currentWord} />
-          )}
-
-          {/* Past Attempts History */}
-          <PastAttempts attemptHistory={attemptHistory} />
-        </div>
-      </div>
-
-      {/* Session Reflection Modal */}
-      <SessionReflectionModal
-        isOpen={showReflectionModal}
-        onClose={handleReflectionClose}
-        onContinue={handleContinuePracticing}
-      />
+        {/* Session Reflection Modal */}
+        <SessionReflectionModal
+          isOpen={showReflectionModal}
+          onClose={handleReflectionClose}
+          onContinue={handleContinuePracticing}
+        />
+      </Container>
     </div>
   );
 }

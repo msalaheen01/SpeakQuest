@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import styles from '../styles/FeedbackCard.module.css';
+import Card from './ui/Card';
+import { Label, Body } from './ui/Typography';
 import InfoTooltip from './InfoTooltip';
 import { generateInsights } from '../utils/insights';
+import styles from '../styles/FeedbackCard.module.css';
 
 /**
  * FeedbackCard Component
@@ -57,30 +59,37 @@ export default function FeedbackCard({ result, attemptHistory = [] }) {
   const config = gradeConfig[grade] || gradeConfig['incorrect'];
   
   return (
-    <div className={styles.feedbackCard}>
-      {/* Main Result Display */}
-      <div className={styles.mainResult}>
-        <div className={styles.transcriptionSection}>
-          <div className={styles.label}>You said:</div>
-          <div className={styles.value}>{transcription || '(no audio detected)'}</div>
-        </div>
-        
-        <div className={styles.expectedSection}>
-          <div className={styles.label}>Expected:</div>
-          <div className={styles.value}>{expected}</div>
-        </div>
-        
-        <div className={styles.gradeBadge} style={{ 
-          backgroundColor: config.bgColor,
-          borderColor: config.borderColor,
-          color: config.color,
-        }}>
-          <InfoTooltip metric="grade">
-            <span>{config.icon}</span>
-            <span>{config.label}</span>
-          </InfoTooltip>
-        </div>
+    <Card className={styles.feedbackCard}>
+      {/* Card Header */}
+      <div className={styles.cardHeader}>
+        <Label>WHISPER HEARD IT AS</Label>
       </div>
+      
+      {/* Card Body */}
+      <div className={styles.cardBody}>
+        {/* Main Result Display */}
+        <div className={styles.mainResult}>
+          <div className={styles.transcriptionSection}>
+            <Label>You said:</Label>
+            <div className={styles.value}>{transcription || '(no audio detected)'}</div>
+          </div>
+          
+          <div className={styles.expectedSection}>
+            <Label>Expected:</Label>
+            <div className={styles.value}>{expected}</div>
+          </div>
+          
+          <div className={styles.gradeBadge} style={{ 
+            backgroundColor: config.bgColor,
+            borderColor: config.borderColor,
+            color: config.color,
+          }}>
+            <InfoTooltip metric="grade">
+              <span>{config.icon}</span>
+              <span>{config.label}</span>
+            </InfoTooltip>
+          </div>
+        </div>
       
       {/* Scores Display */}
       <div className={styles.scoresSection}>
@@ -129,24 +138,30 @@ export default function FeedbackCard({ result, attemptHistory = [] }) {
         </div>
       )}
       
-      {/* Insights Section */}
-      {insights.length > 0 && (
-        <div className={styles.insightsSection}>
-          <div className={styles.insightsTitle}>💡 Insights:</div>
-          <ul className={styles.insightsList}>
-            {insights.map((insight, index) => (
-              <li key={index} className={styles.insightItem}>{insight}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-      
-      {/* Feedback Message */}
-      {feedback && (
-        <div className={styles.feedbackMessage}>
-          {feedback}
-        </div>
-      )}
+        {/* Insights Section */}
+        {insights.length > 0 && (
+          <div className={styles.insightsSection}>
+            <div className={styles.insightsHeader}>
+              <Label>Insights</Label>
+            </div>
+            <ul className={styles.insightsList}>
+              {insights.map((insight, index) => (
+                <li key={index} className={styles.insightItem}>
+                  <span className={styles.insightIcon}>💡</span>
+                  <Body className={styles.insightText}>{insight}</Body>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        
+        {/* Feedback Message */}
+        {feedback && (
+          <div className={styles.feedbackMessage}>
+            <Body>{feedback}</Body>
+          </div>
+        )}
+      </div>
       
       {/* Advanced Details (Collapsible) */}
       {raw && (
@@ -205,7 +220,7 @@ export default function FeedbackCard({ result, attemptHistory = [] }) {
           )}
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 

@@ -4,54 +4,64 @@
  */
 
 :root {
-  /* Professional Dark Theme - AI Dashboard */
-  --color-bg-primary: #0f0f0f;
-  --color-bg-secondary: #1a1a1a;
-  --color-bg-tertiary: #252525;
-  --color-bg-hover: #2a2a2a;
+  /* New Color Palette - Warm Editorial Theme */
+  --color-yellow-light: #FFF2C6;
+  --color-yellow-lighter: #FFF8DE;
+  --color-blue-soft: #AAC4F5;
+  --color-blue-strong: #8CA9FF;
   
-  /* Glassmorphism Panel Background */
-  --panel-bg: rgba(255, 255, 255, 0.06);
-  --panel-bg-hover: rgba(255, 255, 255, 0.08);
-  --panel-border: rgba(255, 255, 255, 0.1);
+  /* Background Colors - Warm Yellow Tones with Gradient */
+  --color-bg-primary: linear-gradient(135deg, #FFF8DE 0%, #FFF2C6 50%, #FFEECC 100%);
+  --color-bg-primary-fallback: #FFF8DE;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-tertiary: #FFF2C6;
+  --color-bg-hover: #FFF2C6;
   
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-light: rgba(255, 255, 255, 0.05);
-  --color-border-dark: rgba(255, 255, 255, 0.12);
-  --divider: rgba(255, 255, 255, 0.08);
+  /* Panel Backgrounds */
+  --panel-bg: rgba(255, 255, 255, 0.9);
+  --panel-bg-hover: rgba(255, 255, 255, 0.95);
+  --panel-border: rgba(140, 169, 255, 0.2);
   
-  --color-text-primary: #f3f3f3;
-  --color-text-secondary: #c5c5c5;
-  --color-text-tertiary: #9a9a9a;
-  --color-text-inverse: #0f0f0f;
+  /* Borders - Subtle Blue Tints */
+  --color-border: rgba(140, 169, 255, 0.15);
+  --color-border-light: rgba(140, 169, 255, 0.1);
+  --color-border-dark: rgba(140, 169, 255, 0.25);
+  --divider: rgba(140, 169, 255, 0.15);
   
-  /* AI Accent Colors - Modern Blue */
-  --color-ai-primary: #4da3ff;
-  --color-ai-primary-light: #6bb3ff;
-  --color-ai-primary-dark: #3a8fef;
-  --color-ai-glow: rgba(77, 163, 255, 0.15);
+  /* Text Colors - Dark for Readability */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-tertiary: #6a6a6a;
+  --color-text-inverse: #FFFFFF;
   
-  /* Accent Colors */
-  --accent-blue: #4da3ff;
-  --accent-green: #38d992;
-  --accent-red: #ff5c5c;
+  /* Primary Accent - Stronger Blue */
+  --color-ai-primary: #8CA9FF;
+  --color-ai-primary-light: #AAC4F5;
+  --color-ai-primary-dark: #6B8FE8;
+  --color-ai-glow: rgba(140, 169, 255, 0.2);
   
-  /* Status Colors - Dark Mode Adjusted */
-  --color-success: #38d992;
-  --color-success-light: rgba(56, 217, 146, 0.2);
-  --color-success-dark: #2bc47a;
+  /* Accent Colors - Harmonized with Palette */
+  --accent-blue: #8CA9FF;
+  --accent-blue-soft: #AAC4F5;
+  --accent-green: #4CAF50;
+  --accent-red: #F44336;
   
-  --color-warning: #F59E0B;
-  --color-warning-light: rgba(245, 158, 11, 0.2);
-  --color-warning-dark: #D97706;
+  /* Status Colors - Warm Theme Adjusted */
+  --color-success: #4CAF50;
+  --color-success-light: rgba(76, 175, 80, 0.15);
+  --color-success-dark: #388E3C;
   
-  --color-error: #ff5c5c;
-  --color-error-light: rgba(255, 92, 92, 0.2);
-  --color-error-dark: #ff3d3d;
+  --color-warning: #FF9800;
+  --color-warning-light: rgba(255, 152, 0, 0.15);
+  --color-warning-dark: #F57C00;
   
-  --color-info: #4da3ff;
-  --color-info-light: rgba(77, 163, 255, 0.2);
-  --color-info-dark: #3a8fef;
+  --color-error: #F44336;
+  --color-error-light: rgba(244, 67, 54, 0.15);
+  --color-error-dark: #D32F2F;
+  
+  --color-info: #8CA9FF;
+  --color-info-light: rgba(140, 169, 255, 0.15);
+  --color-info-dark: #6B8FE8;
   
   /* Typography */
   --font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -75,7 +85,7 @@
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
   
-  /* Spacing System */
+  /* Spacing System - 8-point grid */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -87,6 +97,12 @@
   --space-12: 48px;
   --space-16: 64px;
   
+  /* Section spacing */
+  --section-gap: 64px;
+  --card-padding: 24px;
+  --card-padding-large: 32px;
+  --content-spacing: 16px;
+  
   /* Border Radius */
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -95,12 +111,12 @@
   --radius: 16px;
   --radius-full: 9999px;
   
-  /* Shadows - Dark Mode */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
-  --shadow-ai: 0 0 0 1px rgba(78, 142, 247, 0.2), 0 4px 12px rgba(78, 142, 247, 0.3);
+  /* Shadows - Warm Light Theme */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-ai: 0 0 0 1px rgba(140, 169, 255, 0.2), 0 4px 12px rgba(140, 169, 255, 0.15);
   
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -128,7 +144,8 @@ body {
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
-  background-color: var(--color-bg-secondary);
+  background: linear-gradient(135deg, #FFF8DE 0%, #FFF2C6 50%, #FFEECC 100%);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -136,7 +153,7 @@ body {
 /* Card Base Styles */
 .card {
   background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  border: 2px solid #000000;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-base);
@@ -144,7 +161,8 @@ body {
 
 .card:hover {
   box-shadow: var(--shadow-md);
-  border-color: var(--color-border-dark);
+  border-color: #000000;
+  transform: translateY(-1px);
 }
 
 .card-elevated {
@@ -156,11 +174,9 @@ body {
   box-shadow: var(--shadow-ai);
 }
 
-/* Glassmorphism Panel */
+/* Panel Styles - Clean White on Yellow */
 .panel {
   background: var(--panel-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--panel-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
@@ -169,7 +185,8 @@ body {
 
 .panel:hover {
   background: var(--panel-bg-hover);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-blue-strong);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Dashboard Container */
@@ -205,27 +222,31 @@ body {
 }
 
 .btn-primary {
-  background: var(--color-ai-primary);
+  background: var(--color-blue-strong);
   color: var(--color-text-inverse);
-  border-color: var(--color-ai-primary);
+  border-color: var(--color-blue-strong);
+  box-shadow: 0 2px 4px rgba(140, 169, 255, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
   background: var(--color-ai-primary-dark);
   border-color: var(--color-ai-primary-dark);
   transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 8px rgba(140, 169, 255, 0.3);
 }
 
 .btn-secondary {
-  background: var(--color-bg-primary);
+  background: var(--color-blue-soft);
   color: var(--color-text-primary);
-  border-color: var(--color-border);
+  border-color: var(--color-blue-soft);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--color-bg-hover);
-  border-color: var(--color-border-dark);
+  background: var(--color-blue-strong);
+  color: var(--color-text-inverse);
+  border-color: var(--color-blue-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-success {

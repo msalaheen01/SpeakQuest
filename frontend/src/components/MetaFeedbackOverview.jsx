@@ -75,6 +75,17 @@ export default function MetaFeedbackOverview() {
           </div>
         )}
 
+        {/* AI Pattern Summary - Below Clarity Trend */}
+        {aiPattern && (
+          <div className={styles.card}>
+            <div className={styles.cardIcon}>🤖</div>
+            <div className={styles.cardTitle}>AI Pattern Summary</div>
+            <div className={styles.cardContent}>
+              <div className={styles.cardValue}>{aiPattern}</div>
+            </div>
+          </div>
+        )}
+
         {/* Similarity Trend */}
         {similarityTrend && similarityTrend.trend !== 'insufficient' && (
           <div className={styles.card}>
@@ -88,17 +99,6 @@ export default function MetaFeedbackOverview() {
                 {getTrendIcon(similarityTrend.trend)} {similarityTrend.message}
               </div>
               <div className={styles.cardDetail}>Last 10 attempts</div>
-            </div>
-          </div>
-        )}
-
-        {/* AI Pattern Summary */}
-        {aiPattern && (
-          <div className={styles.card}>
-            <div className={styles.cardIcon}>🤖</div>
-            <div className={styles.cardTitle}>AI Pattern Summary</div>
-            <div className={styles.cardContent}>
-              <div className={styles.cardValue}>{aiPattern}</div>
             </div>
           </div>
         )}

@@ -1,46 +1,21 @@
 /**
- * Home Screen - Centered Dashboard Layout
+ * Home Screen - Editorial Layout
  */
 
-.container {
+.page {
   min-height: 100vh;
-  background: var(--color-bg-primary);
-  padding: var(--space-8) var(--space-4);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.content {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-8);
+  background: linear-gradient(135deg, #FFF8DE 0%, #FFF2C6 50%, #FFEECC 100%);
+  background-attachment: fixed;
+  padding: 64px 0;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 0;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.title {
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-  margin: 0 0 var(--space-3) 0;
-  letter-spacing: -0.02em;
-}
-
-.subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-text-secondary);
-  margin: 0;
-  font-weight: var(--font-weight-normal);
-}
+/* Typography handled by Typography component */
 
 .aiBadge {
   display: inline-flex;
@@ -59,60 +34,62 @@
 .actions {
   display: flex;
   flex-direction: row;
-  gap: var(--space-4);
+  gap: 16px;
   width: 100%;
   max-width: 500px;
+  margin: 0 auto;
   justify-content: center;
-  margin-top: var(--space-2);
 }
 
 .actionButton {
   flex: 1;
-  min-width: 160px;
-  padding: var(--space-4) var(--space-6);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
-  border-radius: var(--radius-md);
+  min-width: 180px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
   transition: all var(--transition-base);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-}
-
-.actionButtonPrimary {
-  background: var(--color-ai-primary);
-  color: var(--color-text-inverse);
   border: none;
 }
 
+.actionButtonPrimary {
+  background: var(--color-blue-soft);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-blue-soft);
+}
+
 .actionButtonPrimary:hover {
-  background: var(--color-ai-primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  background: var(--color-blue-strong);
+  color: var(--color-text-inverse);
+  border-color: var(--color-blue-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .actionButtonPrimary:active {
   transform: translateY(0);
-  box-shadow: var(--shadow-md);
+  box-shadow: none;
 }
 
 .actionButtonSecondary {
-  background: var(--panel-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  color: var(--color-text-primary);
-  border: 1px solid var(--panel-border);
+  background: var(--color-ai-primary-dark);
+  color: #000000;
+  border: 1px solid var(--color-ai-primary-dark);
 }
 
 .actionButtonSecondary:hover {
-  background: var(--panel-bg-hover);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: #5A7FE0;
+  color: #000000;
+  border-color: #5A7FE0;
   transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .actionButtonSecondary:active {
   transform: translateY(0);
-  box-shadow: var(--shadow-md);
+  box-shadow: none;
 }
 
 .reviewBadge {
@@ -131,6 +108,10 @@
 }
 
 @media (max-width: 767px) {
+  .page {
+    padding: 48px 0;
+  }
+  
   .actions {
     flex-direction: column;
     max-width: 400px;
